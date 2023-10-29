@@ -1,4 +1,4 @@
-export default function MoviePageInReview() {
+export default function MoviePageDetails() {
   return (
     <div>
       <section className="film-card film-card--full">
@@ -11,7 +11,7 @@ export default function MoviePageInReview() {
 
           <header className="page-header film-card__head">
             <div className="logo">
-              <a href="main.html" className="logo__link">
+              <a to="main.html" className="logo__link">
                 <span className="logo__letter logo__letter--1">W</span>
                 <span className="logo__letter logo__letter--2">T</span>
                 <span className="logo__letter logo__letter--3">W</span>
@@ -46,13 +46,13 @@ export default function MoviePageInReview() {
                   <span>Play</span>
                 </button>
                 <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 18 14" width="18" height="14">
-                    <use xlinkHref="#in-list"></use>
+                  <svg viewBox="0 0 19 20" width="19" height="20">
+                    <use xlinkHref="#add"></use>
                   </svg>
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <a href="add-review.html" className="btn film-card__button">Add review</a>
+                <a to="add-review.html" className="btn film-card__button">Add review</a>
               </div>
             </div>
           </div>
@@ -67,34 +67,57 @@ export default function MoviePageInReview() {
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
                 <ul className="film-nav__list">
+                  <li className="film-nav__item">
+                    <a to="#" className="film-nav__link">Overview</a>
+                  </li>
                   <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">Overview</a>
+                    <a to="#" className="film-nav__link">Details</a>
                   </li>
                   <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Reviews</a>
+                    <a to="#" className="film-nav__link">Reviews</a>
                   </li>
                 </ul>
               </nav>
 
-              <div className="film-rating">
-                <div className="film-rating__score">8,9</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">Very good</span>
-                  <span className="film-rating__count">240 ratings</span>
-                </p>
-              </div>
+              <div className="film-card__text film-card__row">
+                <div className="film-card__text-col">
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Director</strong>
+                    <span className="film-card__details-value">Wes Anderson</span>
+                  </p>
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Starring</strong>
+                    <span className="film-card__details-value">
+                      Bill Murray, <br />
+                      Edward Norton, <br />
+                      Jude Law, <br />
+                      Willem Dafoe, <br />
+                      Saoirse Ronan, <br />
+                      Tony Revoloru, <br />
+                      Tilda Swinton, <br />
+                      Tom Wilkinson, <br />
+                      Owen Wilkinson, <br />
+                      Adrien Brody, <br />
+                      Ralph Fiennes, <br />
+                      Jeff Goldblum
+                    </span>
+                  </p>
+                </div>
 
-              <div className="film-card__text">
-                <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.</p>
-
-                <p>Gustave prides himself on providing first-class service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
-
-                <p className="film-card__director"><strong>Director: Wes Anderson</strong></p>
-
-                <p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>
+                <div className="film-card__text-col">
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Run Time</strong>
+                    <span className="film-card__details-value">1h 39m</span>
+                  </p>
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Genre</strong>
+                    <span className="film-card__details-value">Comedy</span>
+                  </p>
+                  <p className="film-card__details-item">
+                    <strong className="film-card__details-name">Released</strong>
+                    <span className="film-card__details-value">2014</span>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -111,7 +134,7 @@ export default function MoviePageInReview() {
                 <img src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" alt="Fantastic Beasts: The Crimes of Grindelwald" width="280" height="175" />
               </div>
               <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
+                <a className="small-film-card__link" to="film-page.html">Fantastic Beasts: The Crimes of Grindelwald</a>
               </h3>
             </article>
 
@@ -120,7 +143,7 @@ export default function MoviePageInReview() {
                 <img src="img/bohemian-rhapsody.jpg" alt="Bohemian Rhapsody" width="280" height="175" />
               </div>
               <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Bohemian Rhapsody</a>
+                <a className="small-film-card__link" to="film-page.html">Bohemian Rhapsody</a>
               </h3>
             </article>
 
@@ -129,7 +152,7 @@ export default function MoviePageInReview() {
                 <img src="img/macbeth.jpg" alt="Macbeth" width="280" height="175" />
               </div>
               <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Macbeth</a>
+                <a className="small-film-card__link" to="film-page.html">Macbeth</a>
               </h3>
             </article>
 
@@ -138,7 +161,7 @@ export default function MoviePageInReview() {
                 <img src="img/aviator.jpg" alt="Aviator" width="280" height="175" />
               </div>
               <h3 className="small-film-card__title">
-                <a className="small-film-card__link" href="film-page.html">Aviator</a>
+                <a className="small-film-card__link" to="film-page.html">Aviator</a>
               </h3>
             </article>
           </div>
@@ -146,7 +169,7 @@ export default function MoviePageInReview() {
 
         <footer className="page-footer">
           <div className="logo">
-            <a href="main.html" className="logo__link logo__link--light">
+            <a to="main.html" className="logo__link logo__link--light">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>

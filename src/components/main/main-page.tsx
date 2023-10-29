@@ -1,4 +1,5 @@
-import CatalogFilmCard from './content/catalog-film-card';
+import { FilmInfo } from '../../data/films/film-info';
+import FilmCardsList from '../film-list/film-cards-list';
 
 type PromoFilmInfo = {
   title: string;
@@ -6,7 +7,11 @@ type PromoFilmInfo = {
   releaseYear: number;
 }
 
-export default function MainPage(promoFilmInfo: PromoFilmInfo) {
+type PromoData = {
+  films: FilmInfo[];
+}
+
+export default function MainPage(props: PromoFilmInfo & PromoData) {
   return (
     <div>
       <section className="film-card">
@@ -44,10 +49,10 @@ export default function MainPage(promoFilmInfo: PromoFilmInfo) {
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{promoFilmInfo.title}</h2>
+              <h2 className="film-card__title">{props.title}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{promoFilmInfo.genre}</span>
-                <span className="film-card__year">{promoFilmInfo.releaseYear}</span>
+                <span className="film-card__genre">{props.genre}</span>
+                <span className="film-card__year">{props.releaseYear}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -76,82 +81,38 @@ export default function MainPage(promoFilmInfo: PromoFilmInfo) {
 
           <ul className="catalog__genres-list">
             <li className="catalog__genres-item catalog__genres-item--active">
-              <a href="#" className="catalog__genres-link">All genres</a>
+              <a to="#" className="catalog__genres-link">All genres</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Comedies</a>
+              <a to="#" className="catalog__genres-link">Comedies</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Crime</a>
+              <a to="#" className="catalog__genres-link">Crime</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Documentary</a>
+              <a to="#" className="catalog__genres-link">Documentary</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Dramas</a>
+              <a to="#" className="catalog__genres-link">Dramas</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Horror</a>
+              <a to="#" className="catalog__genres-link">Horror</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Kids & Family</a>
+              <a to="#" className="catalog__genres-link">Kids & Family</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Romance</a>
+              <a to="#" className="catalog__genres-link">Romance</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Sci-Fi</a>
+              <a to="#" className="catalog__genres-link">Sci-Fi</a>
             </li>
             <li className="catalog__genres-item">
-              <a href="#" className="catalog__genres-link">Thrillers</a>
+              <a to="#" className="catalog__genres-link">Thrillers</a>
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            <CatalogFilmCard filmName="Fantastic Beasts: The Crimes of Grindelwald" coverUrl="img/fantastic-beasts-the-crimes-of-grindelwald.jpg" />
-
-            <CatalogFilmCard filmName="Bohemian Rhapsody" coverUrl="img/bohemian-rhapsody.jpg" />
-
-            <CatalogFilmCard filmName="Macbeth" coverUrl="img/macbeth.jpg" />
-
-            <CatalogFilmCard filmName="Aviator" coverUrl="img/aviator.jpg" />
-
-
-            <CatalogFilmCard filmName="We need to talk about Kevin" coverUrl="img/we-need-to-talk-about-kevin.jpg" />
-
-            <CatalogFilmCard filmName="What We Do in the Shadows" coverUrl="img/what-we-do-in-the-shadows.jpg" />
-
-            <CatalogFilmCard filmName="Revenant" coverUrl="img/revenant.jpg" />
-
-            <CatalogFilmCard filmName="Johnny English" coverUrl="img/johnny-english.jpg" />
-
-
-            <CatalogFilmCard filmName="Shutter Island" coverUrl="img/shutter-island.jpg" />
-
-            <CatalogFilmCard filmName="Pulp Fiction" coverUrl="img/pulp-fiction.jpg" />
-
-            <CatalogFilmCard filmName="No Country for Old Men" coverUrl="img/no-country-for-old-men.jpg" />
-
-            <CatalogFilmCard filmName="Snatch" coverUrl="img/snatch.jpg" />
-
-
-            <CatalogFilmCard filmName="Moonrise Kingdom" coverUrl="img/moonrise-kingdom.jpg" />
-
-            <CatalogFilmCard filmName="Seven Years in Tibet" coverUrl="img/seven-years-in-tibet.jpg" />
-
-            <CatalogFilmCard filmName="Midnight Special" coverUrl="img/midnight-special.jpg" />
-
-            <CatalogFilmCard filmName="War of the Worlds" coverUrl="img/war-of-the-worlds.jpg" />
-
-
-            <CatalogFilmCard filmName="Dardjeeling Limited" coverUrl="img/dardjeeling-limited.jpg" />
-
-            <CatalogFilmCard filmName="Orlando" coverUrl="img/orlando.jpg" />
-
-            <CatalogFilmCard filmName="Mindhunter" coverUrl="img/mindhunter.jpg" />
-
-            <CatalogFilmCard filmName="Midnight Special" coverUrl="img/midnight-special.jpg" />
-          </div>
+          <FilmCardsList films={props.films}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
