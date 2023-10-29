@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function HeadGuestPage() {
   return (
     <div>
@@ -19,7 +21,7 @@ export default function HeadGuestPage() {
           </div>
 
           <div className="user-block">
-            <a href="sign-in.html" className="user-block__link">Sign in</a>
+            <Link to="login" className="user-block__link">Sign in</Link>
           </div>
         </header>
 

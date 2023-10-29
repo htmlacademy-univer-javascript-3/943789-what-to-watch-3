@@ -1,4 +1,20 @@
-export default function PlayerPage() {
+import { useParams } from 'react-router-dom';
+import { IFilmManager } from '../../interfaces/film-manager';
+import NotFoundPage from '../system/not-found-page';
+
+export default function PlayerPage({filmManager}: {filmManager: IFilmManager}) {
+  const params = useParams();
+
+  if (params.id === undefined) {
+    return <NotFoundPage />;
+  }
+
+  const filmInfo = filmManager.getFilmOrNull(params.id);
+
+  if (filmInfo === null) {
+    return <NotFoundPage/>;
+  }
+
   return (
     <div>
       <div className="player">
