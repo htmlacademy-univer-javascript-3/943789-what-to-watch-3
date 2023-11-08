@@ -53,7 +53,7 @@ export default function FilmCardDesciption(props: FilmInfo & FilmRatingInfo) {
                 setActiveTabId(tab.id);
               }}
               >
-                <a to="#" className="film-nav__link">{tab.description}</a>
+                <a href="#" className="film-nav__link">{tab.description}</a>
               </li>
             );
           })}
