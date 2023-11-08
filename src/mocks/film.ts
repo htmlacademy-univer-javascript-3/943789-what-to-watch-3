@@ -31,7 +31,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 1,
       title: 'Fantastic Beasts: The Crimes of Grindelwald',
-      genre: 'definetly not porn',
+      genre: 'definetly',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
@@ -79,7 +79,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 7,
       title: 'Revenant',
-      genre: 'definetly not porn',
+      genre: 'definetly',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/revenant.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
@@ -87,7 +87,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 8,
       title: 'Johnny English',
-      genre: 'definetly not porn',
+      genre: 'definetly',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/johnny-english.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
