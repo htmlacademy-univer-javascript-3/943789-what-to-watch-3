@@ -4,63 +4,55 @@ import { FilmRatingInfo } from '../../../data/films/film-rating-info';
 import DetailsContent from './tabs/details-content';
 import OverviewContent from './tabs/overview-content';
 import ReviewContent from './tabs/review-content';
+import classNames from 'classnames';
 
-type TabInfo = {
-  id: number;
-  description: string;
-  componentToShow: JSX.Element;
+enum Tab {
+  Overview = 'Overview',
+  Details = 'Details',
+  Review = 'Review'
 }
 
 function getTabs(props: FilmInfo & FilmRatingInfo) {
-  const TabInfos: TabInfo[] = [
-    {
-      id: 1,
-      description: 'Overview',
-      componentToShow: OverviewContent(props)
-    },
-    {
-      id: 2,
-      description: 'Details',
-      componentToShow: DetailsContent()
-    },
-    {
-      id: 3,
-      description: 'Review',
-      componentToShow: ReviewContent()
-    }
-  ];
+  const TabToComponent: {[key in Tab] : JSX.Element} = {
+    Overview: <OverviewContent {...props}/>,
+    Details: <DetailsContent/>,
+    Review: <ReviewContent />
+  };
 
-  return TabInfos;
+  return TabToComponent;
 }
 
 export default function FilmCardDesciption(props: FilmInfo & FilmRatingInfo) {
-  const [activeTabId, setActiveTabId] = useState<number>(1);
+  const [activeTab, setActiveTab] = useState<Tab>(Tab.Overview);
 
   const tabInfos = getTabs(props);
+  const tabs = Object.keys(tabInfos) as Array<Tab>;
 
   return (
     <div className="film-card__desc">
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
-          {tabInfos.map((tab) => {
-            let classForLi = 'film-nav__item';
-            if (activeTabId === tab.id) {
-              classForLi += ' film-nav__item--active';
-            }
+          {tabs.map((tab) => {
+            const liClass = classNames({
+              'film-nav__item': true,
+              'film-nav__item--active': activeTab === tab
+            });
 
             return (
-              <li key={tab.id} className={classForLi} onClick={() => {
-                setActiveTabId(tab.id);
-              }}
-              >
-                <a href="#" className="film-nav__link">{tab.description}</a>
+              <li key={tab} className={liClass}>
+                <a className="film-nav__link" onClick={() => {
+                  setActiveTab(tab);
+                }}
+                >
+                  {tab}
+                </a>
               </li>
             );
           })}
         </ul>
       </nav>
 
-      {(tabInfos.find((tabInfo) => tabInfo.id === activeTabId) || tabInfos[0]).componentToShow}
+      {tabInfos[(tabs.find((tab) => tab === activeTab) || tabs[0])]}
     </div>
   );
 }
