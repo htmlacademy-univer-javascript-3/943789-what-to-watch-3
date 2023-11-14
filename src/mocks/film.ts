@@ -31,7 +31,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 1,
       title: 'Fantastic Beasts: The Crimes of Grindelwald',
-      genre: 'definetly',
+      genre: 'cinema',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
@@ -39,7 +39,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 2,
       title: 'Bohemian Rhapsody',
-      genre: 'definetly not porn',
+      genre: 'action',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/bohemian-rhapsody.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
@@ -47,7 +47,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 3,
       title: 'Macbeth',
-      genre: 'definetly not porn',
+      genre: 'cinema',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/macbeth.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
@@ -55,7 +55,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 4,
       title: 'Aviator',
-      genre: 'definetly not porn',
+      genre: 'detective',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/aviator.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
@@ -63,7 +63,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 5,
       title: 'We need to talk about Kevin',
-      genre: 'definetly not porn',
+      genre: 'sci-fi',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/we-need-to-talk-about-kevin.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
@@ -71,7 +71,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 6,
       title: 'What We Do in the Shadows',
-      genre: 'definetly not porn',
+      genre: 'comedy',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/what-we-do-in-the-shadows.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
@@ -79,7 +79,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 7,
       title: 'Revenant',
-      genre: 'definetly',
+      genre: 'tragedy',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/revenant.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
@@ -87,7 +87,7 @@ export class MockFilmManager implements IFilmManager{
     {
       id: 8,
       title: 'Johnny English',
-      genre: 'definetly',
+      genre: 'monke',
       releaseDate: new Date('2019-01-16'),
       coverUrl: 'img/johnny-english.jpg',
       urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
