@@ -137,3 +137,70 @@ export class MockFilmManager implements IFilmManager{
     }
   ];
 }
+
+export const filmStorage: FilmInfo[] = [
+  {
+    id: 1,
+    title: 'Fantastic Beasts: The Crimes of Grindelwald',
+    genre: 'cinema',
+    releaseDate: new Date('2019-01-16'),
+    coverUrl: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+  },
+  {
+    id: 2,
+    title: 'Bohemian Rhapsody',
+    genre: 'action',
+    releaseDate: new Date('2019-01-16'),
+    coverUrl: 'img/bohemian-rhapsody.jpg',
+    urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+  },
+  {
+    id: 3,
+    title: 'Macbeth',
+    genre: 'Dramas',
+    releaseDate: new Date('2019-01-16'),
+    coverUrl: 'img/macbeth.jpg',
+    urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+  },
+  {
+    id: 4,
+    title: 'Aviator',
+    genre: 'detective',
+    releaseDate: new Date('2019-01-16'),
+    coverUrl: 'img/aviator.jpg',
+    urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+  },
+  {
+    id: 5,
+    title: 'We need to talk about Kevin',
+    genre: 'sci-fi',
+    releaseDate: new Date('2019-01-16'),
+    coverUrl: 'img/we-need-to-talk-about-kevin.jpg',
+    urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+  },
+  {
+    id: 6,
+    title: 'What We Do in the Shadows',
+    genre: 'comedy',
+    releaseDate: new Date('2019-01-16'),
+    coverUrl: 'img/what-we-do-in-the-shadows.jpg',
+    urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+  },
+  {
+    id: 7,
+    title: 'Revenant',
+    genre: 'tragedy',
+    releaseDate: new Date('2019-01-16'),
+    coverUrl: 'img/revenant.jpg',
+    urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+  },
+  {
+    id: 8,
+    title: 'Johnny English',
+    genre: 'monke',
+    releaseDate: new Date('2019-01-16'),
+    coverUrl: 'img/johnny-english.jpg',
+    urlLink: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
+  }
+];

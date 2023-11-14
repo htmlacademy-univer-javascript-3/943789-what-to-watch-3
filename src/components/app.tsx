@@ -27,7 +27,7 @@ export default function App(appServices: AppServices) {
     <BrowserRouter>
       <Routes>
         <Route path="/">
-          <Route index element={<MainPage films={appServices.filmManager.getFilms()} title="The Grand Budapest Hotel" genre="Drama" releaseYear={2014} />} />
+          <Route index element={<MainPage title="The Grand Budapest Hotel" genre="Drama" releaseYear={2014} />} />
           <Route path="login" element={<SignInPage />} />
           <Route path="mylist" element={<AuthProtectedMyList films={appServices.filmManager.getFilms()}/>} />
           <Route path="films/:id" element={<FilmPage filmManager={appServices.filmManager}/>}/>
