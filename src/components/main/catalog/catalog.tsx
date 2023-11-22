@@ -2,13 +2,18 @@ import FilmCardsList from '../../film-list/film-cards-list';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { filterFilms } from '../../../actions/action';
 import { GenreList } from './genre-list';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { ShowMoreButton } from './show-more-button';
 
 type Props = {
   genres: Set<string>;
 }
 
+const MOVIE_TO_SHOW_STEP = 8;
+
 export function Catalog({ genres }: Props) {
+  const [filmsToShow, setFilmsToShow] = useState<number>(MOVIE_TO_SHOW_STEP);
+
   const dispatch = useAppDispatch();
 
   const films = useAppSelector((store) => store.films);
@@ -16,6 +21,7 @@ export function Catalog({ genres }: Props) {
 
   useEffect(() => {
     dispatch(filterFilms());
+    setFilmsToShow(MOVIE_TO_SHOW_STEP);
   }, [dispatch, selectedGenre]);
 
   return (
@@ -24,11 +30,13 @@ export function Catalog({ genres }: Props) {
 
       <GenreList genres={genres} />
 
-      <FilmCardsList films={films} />
+      <FilmCardsList films={films.slice(0, filmsToShow)} />
 
-      <div className="catalog__more">
-        <button className="catalog__button" type="button">Show more</button>
-      </div>
+      {
+        filmsToShow < films.length
+          ? <ShowMoreButton handleClick={() => setFilmsToShow((s) => s + MOVIE_TO_SHOW_STEP)} />
+          : null
+      }
     </section>
   );
 }

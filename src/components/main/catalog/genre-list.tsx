@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { changeFilterGenreAction, filterFilms } from '../../../actions/action';
+import { changeFilterGenreAction } from '../../../actions/action';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 
 type Props = {
@@ -23,7 +23,6 @@ export function GenreList({ genres }: Props) {
           <li className={liClass} key={genre}>
             <a className='catalog__genres-link' onClick={() => {
               dispatch(changeFilterGenreAction(genre));
-              console.log(genre);
             }}
             >{genre}
             </a>
