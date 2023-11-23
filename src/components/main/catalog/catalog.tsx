@@ -1,42 +1,42 @@
 import FilmCardsList from '../../film-list/film-cards-list';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { GenresFilter } from '../../../data/films/genres-filter';
-import classNames from 'classnames';
-import { changeFilterGenreAction } from '../../../actions/action';
+import { filterFilms } from '../../../actions/action';
+import { GenreList } from './genre-list';
+import { useEffect, useState } from 'react';
+import { ShowMoreButton } from './show-more-button';
 
-const allFilters = Object.values(GenresFilter) as Array<GenresFilter>;
+type Props = {
+  genres: Set<string>;
+}
 
-export function Catalog() {
+const MOVIE_TO_SHOW_STEP = 8;
+
+export function Catalog({ genres }: Props) {
+  const [filmsToShow, setFilmsToShow] = useState<number>(MOVIE_TO_SHOW_STEP);
+
   const dispatch = useAppDispatch();
 
-  const filterStore = useAppSelector((st) => st);
+  const films = useAppSelector((store) => store.films);
+  const selectedGenre = useAppSelector((store) => store.genre);
 
-  const films = useAppSelector((st) => st.films);
+  useEffect(() => {
+    dispatch(filterFilms());
+    setFilmsToShow(MOVIE_TO_SHOW_STEP);
+  }, [dispatch, selectedGenre]);
 
   return (
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-      <ul className="catalog__genres-list">
-        {allFilters.map((filter) => {
-          const liClass = classNames({
-            'catalog__genres-item': true,
-            'catalog__genres-item--active': filterStore.genreFilter === filter
-          });
+      <GenreList genres={genres} />
 
-          return (
-            <li className={liClass} key={filter}>
-              <a className='catalog__genres-link' onClick={() => dispatch(changeFilterGenreAction(filter))}>{filter}</a>
-            </li>
-          );
-        })}
-      </ul>
+      <FilmCardsList films={films.slice(0, filmsToShow)} />
 
-      <FilmCardsList films={films} />
-
-      <div className="catalog__more">
-        <button className="catalog__button" type="button">Show more</button>
-      </div>
+      {
+        filmsToShow < films.length
+          ? <ShowMoreButton handleClick={() => setFilmsToShow((s) => s + MOVIE_TO_SHOW_STEP)} />
+          : null
+      }
     </section>
   );
 }

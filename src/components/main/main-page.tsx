@@ -6,6 +6,20 @@ type PromoFilmInfo = {
   releaseYear: number;
 }
 
+const GenreList = new Set<string>(
+  ['All genres',
+    'Comedies',
+    'Crime',
+    'Documentary',
+    'Dramas',
+    'Horror',
+    'Kids & Family',
+    'Romance',
+    'Sci-Fi',
+    'Thrillers'
+  ]
+);
+
 export default function MainPage(props: PromoFilmInfo) {
   return (
     <div>
@@ -71,7 +85,7 @@ export default function MainPage(props: PromoFilmInfo) {
       </section>
 
       <div className="page-content">
-        <Catalog />
+        <Catalog genres={GenreList}/>
 
         <footer className="page-footer">
           <div className="logo">

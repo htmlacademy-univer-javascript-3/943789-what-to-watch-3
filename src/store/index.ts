@@ -3,7 +3,7 @@ import { filmReducer } from '../reducers/reducer';
 import { FilmInfo } from '../data/films/film-info';
 
 export type Store = {
-  genreFilter: string;
+  genre: string;
   films: FilmInfo[];
 }
 

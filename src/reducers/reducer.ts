@@ -1,27 +1,28 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeFilterGenreAction } from '../actions/action';
+import { changeFilterGenreAction, filterFilms } from '../actions/action';
 import { filmStorage } from '../mocks/film';
 import { Store } from '../store';
-import { GenresFilter } from '../data/films/genres-filter';
 
+const AllGenresFilter = 'All genres';
 
 const initialStore: Store = {
-  genreFilter: GenresFilter.All,
+  genre: AllGenresFilter,
   films: filmStorage
 };
 
 export const filmReducer = createReducer(initialStore, (builder) => {
   builder
     .addCase(changeFilterGenreAction, (state, action) => {
-      state.genreFilter = action.payload;
-
+      state.genre = action.payload;
+    })
+    .addCase(filterFilms, (state) => {
       const allFilms = filmStorage;
 
-      if (state.genreFilter === GenresFilter.All) {
+      if (state.genre === AllGenresFilter) {
         state.films = allFilms;
         return;
       }
 
-      state.films = allFilms.filter((film) => film.genre === state.genreFilter);
+      state.films = allFilms.filter((film) => film.genre === state.genre);
     });
 });

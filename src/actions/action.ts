@@ -1,13 +1,12 @@
 import { createAction } from '@reduxjs/toolkit';
-import { GenresFilter } from '../data/films/genres-filter';
 
 export enum FilmActions {
   ChangeFilterGenre = 'CHANGE_FILTER_GENRE',
-  GetFilmsByFilterGenre = 'GET_FILMS_BY_FILTER_GENRE'
+  FilterFilms = 'FILTER_FILMS'
 }
 
-export const getFilmsByFilterGenre = createAction(FilmActions.GetFilmsByFilterGenre);
+export const filterFilms = createAction(FilmActions.FilterFilms);
 
-export const changeFilterGenreAction = createAction(FilmActions.ChangeFilterGenre, (newFilterGenre: GenresFilter) => ({
-  payload: newFilterGenre
+export const changeFilterGenreAction = createAction(FilmActions.ChangeFilterGenre, (newGenre: string) => ({
+  payload: newGenre
 }));
