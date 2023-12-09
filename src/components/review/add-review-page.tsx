@@ -1,28 +1,28 @@
 import { Link, useParams } from 'react-router-dom';
-import { IFilmManager } from '../../interfaces/film-manager';
 import NotFoundPage from '../system/not-found-page';
 import AddReviewForm from './forns/add-review-form';
+import { useAppSelector } from '../../hooks';
 
-export default function AddReviewPage({filmManager} : {filmManager: IFilmManager}) {
+export default function AddReviewPage() {
   const params = useParams();
+  const films = useAppSelector((store) => store.allFilms);
 
   if (params.id === undefined) {
     return <NotFoundPage />;
   }
 
-  const filmInfo = filmManager.getFilmOrNull(params.id);
+  const filmInfo = films.find((film) => film.id === params.id);
 
-  if (filmInfo === null) {
+  if (filmInfo === undefined) {
     return <NotFoundPage/>;
   }
-
 
   return (
     <div>
       <section className="film-card film-card--full">
         <div className="film-card__header">
           <div className="film-card__bg">
-            <img src={filmInfo.coverUrl} alt={filmInfo.title} />
+            <img src={filmInfo.previewImage} alt={filmInfo.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -39,7 +39,7 @@ export default function AddReviewPage({filmManager} : {filmManager: IFilmManager
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <Link to={'..'} className="breadcrumbs__link">{filmInfo.title}</Link>
+                  <Link to={'..'} className="breadcrumbs__link">{filmInfo.name}</Link>
                 </li>
                 <li className="breadcrumbs__item">
                   <a className="breadcrumbs__link">Add review</a>
@@ -60,7 +60,7 @@ export default function AddReviewPage({filmManager} : {filmManager: IFilmManager
           </header>
 
           <div className="film-card__poster film-card__poster--small">
-            <img src={filmInfo.coverUrl} alt={filmInfo.title} width="218" height="327" />
+            <img src={filmInfo.previewImage} alt={filmInfo.name} width="218" height="327" />
           </div>
         </div>
 

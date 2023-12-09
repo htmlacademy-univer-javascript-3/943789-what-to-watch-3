@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { changeFilterGenreAction } from '../../../actions/action';
+import { changeFilterGenreAction } from '../../../store/action';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 
 type Props = {

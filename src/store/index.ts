@@ -1,15 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { filmReducer } from '../reducers/reducer';
-import { FilmInfo } from '../data/films/film-info';
+import { filmReducer } from './reducer';
+import { createAPIClient } from '../api/api';
 
-export type Store = {
-  genre: string;
-  films: FilmInfo[];
-}
+const apiClient = createAPIClient();
 
-export const filterGenreStore = configureStore({
-  reducer: filmReducer
+export const store = configureStore({
+  reducer: filmReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: apiClient
+      }
+    })
 });
 
-export type RootState = ReturnType<typeof filterGenreStore.getState>
-export type AppDispatch = typeof filterGenreStore.dispatch
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch

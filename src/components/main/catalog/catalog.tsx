@@ -1,6 +1,6 @@
 import FilmCardsList from '../../film-list/film-cards-list';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { filterFilms } from '../../../actions/action';
+import { filterFilms } from '../../../store/action';
 import { GenreList } from './genre-list';
 import { useEffect, useState } from 'react';
 import { ShowMoreButton } from './show-more-button';
@@ -16,7 +16,7 @@ export function Catalog({ genres }: Props) {
 
   const dispatch = useAppDispatch();
 
-  const films = useAppSelector((store) => store.films);
+  const films = useAppSelector((store) => store.filteredFilms);
   const selectedGenre = useAppSelector((store) => store.genre);
 
   useEffect(() => {
