@@ -18,7 +18,6 @@ export const fetchFilms = createAsyncThunk<void, undefined, {
     dispatch(setLoadedStatus(false));
     const { data } = await api.get<FilmInfo[]>(APIRoute.Films);
     dispatch(setLoadedStatus(true));
-    console.log(1000)
     dispatch(uploadFilms(data));
   },
 );

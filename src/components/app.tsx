@@ -9,6 +9,7 @@ import NotFoundPage from './system/not-found-page';
 import AuthRequired from './system/auth-protected';
 import { FilmInfo } from '../data/films/film-info';
 import { useAppSelector } from '../hooks';
+import { Spinner } from './system/spinner';
 
 function AuthProtectedMyList({ films }: { films: FilmInfo[] }) {
   return (
@@ -23,7 +24,7 @@ export default function App() {
   const films = useAppSelector((store) => store.allFilms);
 
   if (!loaded) {
-    return (<p>asdasfasf</p>);
+    return <Spinner />;
   }
 
   return (
