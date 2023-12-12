@@ -23,6 +23,7 @@ export const fetchFilms = createAsyncThunk<void, undefined, ThunkContext>(
   },
 );
 
+
 export const verifyAuth = createAsyncThunk<void, undefined, ThunkContext>(
   'auth/verify',
   async (_arg, { dispatch, extra: api }) => {
