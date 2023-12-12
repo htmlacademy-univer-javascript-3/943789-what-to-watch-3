@@ -1,6 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeFilterGenreAction, filterFilms, setLoadingStatus, uploadFilms } from './action';
+import { changeFilterGenreAction, filterFilms, updateAuthStatus, setLoadingStatus, uploadFilms, updateUserInfo } from './action';
 import { FilmInfo } from '../data/films/film-info';
+import { AuthStatus } from '../auth/auth-status';
+import { UserInfo } from '../auth/user-info';
 
 const AllGenresFilter = 'All genres';
 
@@ -10,16 +12,20 @@ export type Store = {
   filteredFilms: FilmInfo[];
   allFilms: FilmInfo[];
   filmsLoaded: boolean;
+  authorizationStatus: AuthStatus;
+  userInfo: UserInfo | undefined;
 }
 
 const initialStore: Store = {
   genre: AllGenresFilter,
   filteredFilms: [],
   allFilms: [],
-  filmsLoaded: false
+  filmsLoaded: false,
+  authorizationStatus: AuthStatus.AuthRequired,
+  userInfo: undefined
 };
 
-export const filmReducer = createReducer(initialStore, (builder) => {
+export const reducer = createReducer(initialStore, (builder) => {
   builder
     .addCase(setLoadingStatus, (state, action) => {
       state.filmsLoaded = action.payload;
@@ -39,5 +45,11 @@ export const filmReducer = createReducer(initialStore, (builder) => {
       }
 
       state.filteredFilms = allFilms.filter((film) => film.genre === state.genre);
+    })
+    .addCase(updateAuthStatus, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(updateUserInfo, (state, action) => {
+      state.userInfo = action.payload;
     });
 });

@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { filmReducer } from './reducer';
+import { reducer } from './reducer';
 import { createAPIClient } from '../api/api';
 
 const apiClient = createAPIClient();
 
 export const store = configureStore({
-  reducer: filmReducer,
+  reducer: reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {
