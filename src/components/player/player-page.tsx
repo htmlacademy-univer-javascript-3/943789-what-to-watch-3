@@ -1,15 +1,16 @@
 import { useParams } from 'react-router-dom';
-import { IFilmManager } from '../../interfaces/film-manager';
 import NotFoundPage from '../system/not-found-page';
+import { useAppSelector } from '../../hooks';
 
-export default function PlayerPage({filmManager}: {filmManager: IFilmManager}) {
+export default function PlayerPage() {
   const params = useParams();
+  const films = useAppSelector((store) => store.allFilms);
 
   if (params.id === undefined) {
     return <NotFoundPage />;
   }
 
-  const filmInfo = filmManager.getFilmOrNull(params.id);
+  const filmInfo = films.find((film) => film.id === params.id);
 
   if (filmInfo === null) {
     return <NotFoundPage/>;

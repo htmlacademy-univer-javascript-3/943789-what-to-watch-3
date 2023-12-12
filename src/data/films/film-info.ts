@@ -1,8 +1,7 @@
 export type FilmInfo = {
-  id: number;
-  title: string;
+  id: string;
+  name: string;
   genre: string;
-  releaseDate: Date;
-  coverUrl: string;
-  urlLink: string;
+  previewImage: string;
+  previewVideoLink: string;
 }

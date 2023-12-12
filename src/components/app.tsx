@@ -7,32 +7,36 @@ import AddReviewPage from './review/add-review-page';
 import PlayerPage from './player/player-page';
 import NotFoundPage from './system/not-found-page';
 import AuthRequired from './system/auth-protected';
-import { IFilmManager } from '../interfaces/film-manager';
 import { FilmInfo } from '../data/films/film-info';
+import { useAppSelector } from '../hooks';
+import { Spinner } from './system/spinner';
 
-type AppServices = {
-  filmManager: IFilmManager;
-}
-
-function AuthProtectedMyList({films} : {films: FilmInfo[]}) {
+function AuthProtectedMyList({ films }: { films: FilmInfo[] }) {
   return (
     <AuthRequired>
-      <MyListPage films={films}/>
+      <MyListPage films={films} />
     </AuthRequired>
   );
 }
 
-export default function App(appServices: AppServices) {
+export default function App() {
+  const loaded = useAppSelector((store) => store.filmsLoaded);
+  const films = useAppSelector((store) => store.allFilms);
+
+  if (!loaded) {
+    return <Spinner />;
+  }
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/">
           <Route index element={<MainPage title="The Grand Budapest Hotel" genre="Drama" releaseYear={2014} />} />
           <Route path="login" element={<SignInPage />} />
-          <Route path="mylist" element={<AuthProtectedMyList films={appServices.filmManager.getFilms()}/>} />
-          <Route path="films/:id" element={<FilmPage filmManager={appServices.filmManager}/>}/>
-          <Route path="films/:id/review" element={<AddReviewPage filmManager={appServices.filmManager}/>} />
-          <Route path="player/:id" element={<PlayerPage filmManager={appServices.filmManager}/>} />
+          <Route path="mylist" element={<AuthProtectedMyList films={films} />} />
+          <Route path="films/:id" element={<FilmPage />} />
+          <Route path="films/:id/review" element={<AddReviewPage />} />
+          <Route path="player/:id" element={<PlayerPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

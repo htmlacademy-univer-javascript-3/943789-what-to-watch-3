@@ -7,7 +7,7 @@ type ListInfo = {
 }
 
 type ListState = {
-  activeFilmId: number | null;
+  activeFilmId: string | null;
 }
 
 export default function FilmCardsList(info: ListInfo) {

@@ -37,13 +37,13 @@ export default function CatalogFilmCard(props: CardInfo & Events) {
       <VideoPreview
         height={175}
         width={280}
-        src={props.filmInfo.urlLink}
-        poster={props.filmInfo.coverUrl}
+        src={props.filmInfo.previewVideoLink}
+        poster={props.filmInfo.previewImage}
         isPlaying={isPlaying}
         muted
       />
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`/films/${filmInfo.id}`}>{filmInfo.title}</Link>
+        <Link className="small-film-card__link" to={`/films/${filmInfo.id}`}>{filmInfo.name}</Link>
       </h3>
     </article>
   );
