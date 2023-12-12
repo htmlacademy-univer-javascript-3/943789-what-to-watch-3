@@ -1,4 +1,8 @@
+import { Link } from 'react-router-dom';
+import { AuthStatus } from '../../auth/auth-status';
+import { useAppSelector } from '../../hooks';
 import { Catalog } from './catalog/catalog';
+import React from 'react';
 
 type PromoFilmInfo = {
   title: string;
@@ -21,6 +25,9 @@ const GenreList = new Set<string>(
 );
 
 export default function MainPage(props: PromoFilmInfo) {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const userInfo = useAppSelector((state) => state.userInfo);
+
   return (
     <div>
       <section className="film-card">
@@ -40,14 +47,24 @@ export default function MainPage(props: PromoFilmInfo) {
           </div>
 
           <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
+            {
+              authorizationStatus === AuthStatus.Authorithed
+                ?
+                <React.Fragment>
+                  <li className="user-block__item">
+                    <div className="user-block__avatar">
+                      <img src={userInfo?.avatarUrl} alt="User avatar" width="63" height="63" />
+                    </div>
+                  </li>
+                  <li className="user-block__item">
+                    <a className="user-block__link">Sign out</a>
+                  </li>
+                </React.Fragment>
+                :
+                <li className="user-block_item">
+                  <Link to={'/login'} className='user-block__link'>Sign in</Link>
+                </li>
+            }
           </ul>
         </header>
 
@@ -85,7 +102,7 @@ export default function MainPage(props: PromoFilmInfo) {
       </section>
 
       <div className="page-content">
-        <Catalog genres={GenreList}/>
+        <Catalog genres={GenreList} />
 
         <footer className="page-footer">
           <div className="logo">

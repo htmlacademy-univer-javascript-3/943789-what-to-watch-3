@@ -7,17 +7,8 @@ import AddReviewPage from './review/add-review-page';
 import PlayerPage from './player/player-page';
 import NotFoundPage from './system/not-found-page';
 import AuthRequired from './system/auth-protected';
-import { FilmInfo } from '../data/films/film-info';
 import { useAppSelector } from '../hooks';
 import { Spinner } from './system/spinner';
-
-function AuthProtectedMyList({ films }: { films: FilmInfo[] }) {
-  return (
-    <AuthRequired>
-      <MyListPage films={films} />
-    </AuthRequired>
-  );
-}
 
 export default function App() {
   const loaded = useAppSelector((store) => store.filmsLoaded);
@@ -33,9 +24,19 @@ export default function App() {
         <Route path="/">
           <Route index element={<MainPage title="The Grand Budapest Hotel" genre="Drama" releaseYear={2014} />} />
           <Route path="login" element={<SignInPage />} />
-          <Route path="mylist" element={<AuthProtectedMyList films={films} />} />
+          <Route path="mylist" element={
+            <AuthRequired>
+              <MyListPage films={films} />
+            </AuthRequired>
+          }
+          />
           <Route path="films/:id" element={<FilmPage />} />
-          <Route path="films/:id/review" element={<AddReviewPage />} />
+          <Route path="films/:id/review" element={
+            <AuthRequired>
+              <AddReviewPage />
+            </AuthRequired>
+          }
+          />
           <Route path="player/:id" element={<PlayerPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />

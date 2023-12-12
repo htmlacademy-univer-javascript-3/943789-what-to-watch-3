@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom/client';
 import App from './components/app';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { fetchFilms } from './store/api-actions';
+import { fetchFilms, verifyAuth } from './api/api-actions';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 store.dispatch(fetchFilms());
+store.dispatch(verifyAuth());
 
 root.render(
   <React.StrictMode>
