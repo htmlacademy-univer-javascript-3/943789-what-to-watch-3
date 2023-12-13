@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { FilmInfo } from '../../../data/films/film-info';
-import { FilmRatingInfo } from '../../../data/films/film-rating-info';
 import DetailsContent from './tabs/details-content';
 import OverviewContent from './tabs/overview-content';
 import ReviewContent from './tabs/review-content';
@@ -12,20 +10,15 @@ enum Tab {
   Review = 'Review'
 }
 
-function getTabs(props: FilmInfo & FilmRatingInfo) {
-  const TabToComponent: {[key in Tab] : JSX.Element} = {
-    Overview: <OverviewContent {...props}/>,
+export default function FilmCardDesciption() {
+  const [activeTab, setActiveTab] = useState<Tab>(Tab.Overview);
+
+  const tabInfos = {
+    Overview: <OverviewContent />,
     Details: <DetailsContent/>,
     Review: <ReviewContent />
   };
 
-  return TabToComponent;
-}
-
-export default function FilmCardDesciption(props: FilmInfo & FilmRatingInfo) {
-  const [activeTab, setActiveTab] = useState<Tab>(Tab.Overview);
-
-  const tabInfos = getTabs(props);
   const tabs = Object.keys(tabInfos) as Array<Tab>;
 
   return (

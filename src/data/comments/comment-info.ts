@@ -1,6 +1,6 @@
 export type CommentInfo = {
     id: string;
-    date: Date;
+    date: string;
     user: string;
     comment: string;
     rating: number;

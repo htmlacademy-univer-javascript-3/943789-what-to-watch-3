@@ -1,31 +1,43 @@
 import React from 'react';
-import { FilmInfo } from '../../../../data/films/film-info';
-import { FilmRatingInfo } from '../../../../data/films/film-rating-info';
+import { useAppSelector } from '../../../../hooks';
 
 function GetRatingLevelByScore(score: number) {
-  return score > 5 ? 'Very Good' : 'BAAAAAAD';
+  switch (true) {
+    case score < 3:
+      return 'Bad';
+    case score >= 3 && score < 5:
+      return 'Normal';
+    case score >= 5 && score < 8:
+      return 'Good';
+    case score >= 8 && score < 10:
+      return 'Very Good';
+    case score >= 10:
+      return 'Awesome';
+  }
 }
 
-export default function OverviewContent(props: FilmInfo & FilmRatingInfo) {
+export default function OverviewContent() {
+  const filmInfo = useAppSelector((store) => store.currentFilm);
+
+  if (filmInfo === undefined) {
+    return (null);
+  }
+
   return (
     <React.Fragment>
       <div className="film-rating">
-        <div className="film-rating__score">{props.score}</div>
+        <div className="film-rating__score">{filmInfo.rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">{GetRatingLevelByScore(props.score)}</span>
-          <span className="film-rating__count">{props.count} ratings</span>
+          <span className="film-rating__level">{GetRatingLevelByScore(filmInfo.rating)}</span>
+          <span className="film-rating__count">{filmInfo.scoresCount} ratings</span>
         </p>
       </div>
 
-      {/*TODO: add film description*/}
       <div className="film-card__text">
-        <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&apos;s friend and protege.</p>
+        <p>{filmInfo.description}</p>
+        <p className="film-card__director"><strong>Director: {filmInfo.director}</strong></p>
 
-        <p>Gustave prides himself on providing first-class service to the hotel&apos;s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&apos;s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
-
-        <p className="film-card__director"><strong>Director: Wes Anderson</strong></p>
-
-        <p className="film-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>
+        <p className="film-card__starring"><strong>Starring: {filmInfo.starring.join(', ')} and others</strong></p>
       </div>
     </React.Fragment>
   );

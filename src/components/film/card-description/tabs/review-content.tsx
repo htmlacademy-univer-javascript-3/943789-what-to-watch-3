@@ -1,7 +1,18 @@
+import { useAppSelector } from '../../../../hooks';
+import { ReviewBlock } from './review/review-block';
+
 export default function ReviewContent() {
+  const comments = useAppSelector((store) => store.commentsToCurrentFilm);
+
+  if (comments === undefined) {
+    return null;
+  }
+
   return (
     <div className="film-card__reviews film-card__row">
       <div className="film-card__reviews-col">
+        {comments.map((comment) => <ReviewBlock key={comment.id} {...comment}/>)}
+
         <div className="review">
           <blockquote className="review__quote">
             <p className="review__text">Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director&apos;s funniest and most exquisitely designed films in years.</p>
