@@ -1,20 +1,28 @@
 import { Link, useParams } from 'react-router-dom';
 import NotFoundPage from '../system/not-found-page';
-import AddReviewForm from './forns/add-review-form';
-import { useAppSelector } from '../../hooks';
+import AddReviewForm from './forms/add-review-form';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchFilmById } from '../../api/api-actions';
+import { useEffect } from 'react';
 
 export default function AddReviewPage() {
   const params = useParams();
-  const films = useAppSelector((store) => store.allFilms);
+  const dispatch = useAppDispatch();
 
-  if (params.id === undefined) {
+  const id = params.id as string;
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+
+    dispatch(fetchFilmById(id));
+  }, [dispatch, id]);
+
+  const filmInfo = useAppSelector((store) => store.currentFilm);
+
+  if (params.id === undefined || filmInfo === undefined) {
     return <NotFoundPage />;
-  }
-
-  const filmInfo = films.find((film) => film.id === params.id);
-
-  if (filmInfo === undefined) {
-    return <NotFoundPage/>;
   }
 
   return (
@@ -22,7 +30,7 @@ export default function AddReviewPage() {
       <section className="film-card film-card--full">
         <div className="film-card__header">
           <div className="film-card__bg">
-            <img src={filmInfo.previewImage} alt={filmInfo.name} />
+            <img src={filmInfo.backgroundImage} alt={filmInfo.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -60,7 +68,7 @@ export default function AddReviewPage() {
           </header>
 
           <div className="film-card__poster film-card__poster--small">
-            <img src={filmInfo.previewImage} alt={filmInfo.name} width="218" height="327" />
+            <img src={filmInfo.posterImage} alt={filmInfo.name} width="218" height="327" />
           </div>
         </div>
 
