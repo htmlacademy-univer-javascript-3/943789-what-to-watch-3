@@ -2,6 +2,7 @@ import React, { FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { addCommentToFilmById } from '../../../api/api-actions';
 import { useNavigate } from 'react-router-dom';
+import { selectCurrentFilm } from '../../../stores/current-film/current-film-selectors';
 
 type FormData = {
   rating: string;
@@ -31,7 +32,7 @@ export default function AddReviewForm() {
     'review-text': ''
   });
 
-  const filmId = useAppSelector((store) => store.currentFilm?.id);
+  const filmId = useAppSelector(selectCurrentFilm)?.id;
 
   if (filmId === undefined) {
     return null;

@@ -1,5 +1,6 @@
 import { AuthStatus } from '../../auth/auth-status';
 import { useAppSelector } from '../../hooks';
+import { selectAuthorizationStatus } from '../../stores/auth/auth-selectors';
 import SignInPage from '../sign-in/sign-in-page';
 
 type Props = {
@@ -7,7 +8,7 @@ type Props = {
 }
 
 export default function AuthRequired(props : Props) {
-  const authorizationStatus = useAppSelector((store) => store.authorizationStatus);
+  const authorizationStatus = useAppSelector(selectAuthorizationStatus);
 
   return authorizationStatus === AuthStatus.Authorithed ? props.children : <SignInPage />;
 }

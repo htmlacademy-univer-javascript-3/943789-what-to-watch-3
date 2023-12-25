@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAppSelector } from '../../../../hooks';
+import { selectCurrentFilm } from '../../../../stores/current-film/current-film-selectors';
 
 function GetRatingLevelByScore(score: number) {
   switch (true) {
@@ -17,7 +18,7 @@ function GetRatingLevelByScore(score: number) {
 }
 
 export default function OverviewContent() {
-  const filmInfo = useAppSelector((store) => store.currentFilm);
+  const filmInfo = useAppSelector(selectCurrentFilm);
 
   if (filmInfo === undefined) {
     return (null);

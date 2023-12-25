@@ -1,8 +1,9 @@
 import { useAppSelector } from '../../../../hooks';
+import { selectCommentsToCurrent } from '../../../../stores/current-film/current-film-selectors';
 import { ReviewBlock } from './review/review-block';
 
 export default function ReviewContent() {
-  const comments = useAppSelector((store) => store.commentsToCurrentFilm);
+  const comments = useAppSelector(selectCommentsToCurrent);
 
   if (comments === undefined) {
     return null;

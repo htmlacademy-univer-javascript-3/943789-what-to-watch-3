@@ -7,12 +7,21 @@ import AddReviewPage from './review/add-review-page';
 import PlayerPage from './player/player-page';
 import NotFoundPage from './system/not-found-page';
 import AuthRequired from './system/auth-protected';
-import { useAppSelector } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { Spinner } from './system/spinner';
+import { selectAllFilms, selectLoadedStatus } from '../stores/films/films-selectors';
+import { useEffect } from 'react';
+import { fetchFilms, verifyAuth } from '../api/api-actions';
 
 export default function App() {
-  const loaded = useAppSelector((store) => store.filmsLoaded);
-  const films = useAppSelector((store) => store.allFilms);
+  const dispath = useAppDispatch();
+  const loaded = useAppSelector(selectLoadedStatus);
+  const films = useAppSelector(selectAllFilms);
+
+  useEffect(() => {
+    dispath(fetchFilms());
+    dispath(verifyAuth());
+  }, [dispath]);
 
   if (!loaded) {
     return <Spinner />;
@@ -22,7 +31,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/">
-          <Route index element={<MainPage title="The Grand Budapest Hotel" genre="Drama" releaseYear={2014} />} />
+          <Route index element={<MainPage />} />
           <Route path="login" element={<SignInPage />} />
           <Route path="mylist" element={
             <AuthRequired>

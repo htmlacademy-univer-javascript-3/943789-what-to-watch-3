@@ -1,7 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AxiosInstance } from 'axios';
-import { AppDispatch, RootState } from '../store';
-import { updateAuthStatus, setLoadingStatus as setLoadedStatus, setFilms, updateUserInfo, setCurrentFilm, setSimilarFilms, setCommentsForCurrent } from '../store/action';
+import axios, { AxiosInstance } from 'axios';
 import { FilmInfo } from '../data/films/film-info';
 import { AuthStatus } from '../auth/auth-status';
 import { UserInfo } from '../auth/user-info';
@@ -9,6 +7,13 @@ import { AuthData } from '../auth/auth-data';
 import { EnrichedFilmInfo } from '../data/films/enriched-film-info';
 import { CommentInfo } from '../data/comments/comment-info';
 import { CommentToCreate } from '../data/comments/comment-to-create';
+import { PromoFilmInfo } from '../data/films/promo-film-info';
+import { AppDispatch, RootState } from '../stores';
+import { updateAuthError, updateAuthStatus, updateUserInfo } from '../stores/auth/auth-actions';
+import { setCurrentFilm, setSimilarFilms, setCommentsForCurrent } from '../stores/current-film/current-film-actions';
+import { setFilms, setGenres, setLoadingStatus as setLoadedStatus, setPromoFilm } from '../stores/films/films-actions';
+import { Headers } from './headers';
+import { AuthError } from '../auth/auth-error';
 
 type ThunkContext = {
   dispatch: AppDispatch;
@@ -21,8 +26,10 @@ export const fetchFilms = createAsyncThunk<void, undefined, ThunkContext>(
   async (_arg, { dispatch, extra: api }) => {
     dispatch(setLoadedStatus(false));
     const { data } = await api.get<FilmInfo[]>('/films');
-    dispatch(setLoadedStatus(true));
+    const genres = new Set(data.map((film) => film.genre));
     dispatch(setFilms(data));
+    dispatch(setGenres(genres));
+    dispatch(setLoadedStatus(true));
   },
 );
 
@@ -47,6 +54,14 @@ export const fetchSimilarFilmById = createAsyncThunk<void, string, ThunkContext>
     } catch {
       dispatch(setSimilarFilms(undefined));
     }
+  },
+);
+
+export const fetchPromoFilm = createAsyncThunk<void, undefined, ThunkContext>(
+  'films/fetchPromoFilm',
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.get<PromoFilmInfo>('/promo');
+    dispatch(setPromoFilm(data));
   },
 );
 
@@ -92,8 +107,20 @@ export const getAuthData = createAsyncThunk<void, AuthData, ThunkContext>(
       const { data } = await api.post<UserInfo>('/login', authData);
       dispatch(updateAuthStatus(AuthStatus.Authorithed));
       dispatch(updateUserInfo(data));
-      api.defaults.headers.common['X-Token'] = data.token;
-    } catch {
+      dispatch(updateAuthError(undefined));
+      api.defaults.headers.common[Headers.AuthHeader] = data.token;
+    } catch (err) {
+      if (!axios.isAxiosError(err)) {
+        return;
+      }
+
+      const authError = err.response?.data as AuthError;
+
+      if (authError !== null) {
+        dispatch(updateAuthError(authError));
+      } else {
+        dispatch(updateAuthError(undefined));
+      }
       dispatch(updateAuthStatus(AuthStatus.AuthRequired));
       dispatch(updateUserInfo(undefined));
     }

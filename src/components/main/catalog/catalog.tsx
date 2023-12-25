@@ -1,23 +1,20 @@
 import FilmCardsList from '../../film-list/film-cards-list';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { filterFilms } from '../../../store/action';
 import { GenreList } from './genre-list';
 import { useEffect, useState } from 'react';
 import { ShowMoreButton } from './show-more-button';
-
-type Props = {
-  genres: Set<string>;
-}
+import { selectCurrentGenre, selectFilteredFilms } from '../../../stores/films/films-selectors';
+import { filterFilms } from '../../../stores/films/films-actions';
 
 const MOVIE_TO_SHOW_STEP = 8;
 
-export function Catalog({ genres }: Props) {
+export function Catalog() {
   const [filmsToShow, setFilmsToShow] = useState<number>(MOVIE_TO_SHOW_STEP);
 
   const dispatch = useAppDispatch();
 
-  const films = useAppSelector((store) => store.filteredFilms);
-  const selectedGenre = useAppSelector((store) => store.genre);
+  const films = useAppSelector(selectFilteredFilms);
+  const selectedGenre = useAppSelector(selectCurrentGenre);
 
   useEffect(() => {
     dispatch(filterFilms());
@@ -28,7 +25,7 @@ export function Catalog({ genres }: Props) {
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-      <GenreList genres={genres} />
+      <GenreList />
 
       <FilmCardsList films={films.slice(0, filmsToShow)} />
 
