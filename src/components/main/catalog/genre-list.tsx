@@ -1,15 +1,21 @@
 import classNames from 'classnames';
-import { changeFilterGenreAction } from '../../../store/action';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { setCurrentGenre } from '../../../stores/films/films-actions';
+import { selectCurrentGenre, selectGenres } from '../../../stores/films/films-selectors';
+import { AllGenresFilter } from '../../../data/consts/all-genres-filter';
 
-type Props = {
-  genres: Set<string>;
+function prepareGenreList(genres: string[]) {
+  genres.sort();
+
+  genres.unshift(AllGenresFilter);
 }
 
-export function GenreList({ genres }: Props) {
+export function GenreList() {
   const dispatch = useAppDispatch();
 
-  const selectedGenre = useAppSelector((store) => store.genre);
+  const selectedGenre = useAppSelector(selectCurrentGenre);
+  const genres = [... useAppSelector(selectGenres)];
+  prepareGenreList(genres);
 
   return (
     <ul className="catalog__genres-list">
@@ -22,7 +28,7 @@ export function GenreList({ genres }: Props) {
         return (
           <li className={liClass} key={genre}>
             <a className='catalog__genres-link' onClick={() => {
-              dispatch(changeFilterGenreAction(genre));
+              dispatch(setCurrentGenre(genre));
             }}
             >{genre}
             </a>

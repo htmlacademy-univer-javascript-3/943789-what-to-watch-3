@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAppSelector } from '../../../../hooks';
+import { selectCurrentFilm } from '../../../../stores/current-film/current-film-selectors';
 
 const MINUTES_IN_HOUR = 60;
 
@@ -29,7 +30,7 @@ function GetHumanReadableRunTime(runTime: number) {
 }
 
 export default function DetailsContent() {
-  const filmInfo = useAppSelector((store) => store.currentFilm);
+  const filmInfo = useAppSelector(selectCurrentFilm);
 
   if (filmInfo === undefined) {
     return null;

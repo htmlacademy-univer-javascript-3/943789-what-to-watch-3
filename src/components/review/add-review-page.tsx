@@ -4,6 +4,8 @@ import AddReviewForm from './forms/add-review-form';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchFilmById } from '../../api/api-actions';
 import { useEffect } from 'react';
+import { selectCurrentFilm } from '../../stores/current-film/current-film-selectors';
+import { Header } from '../layout/header';
 
 export default function AddReviewPage() {
   const params = useParams();
@@ -19,7 +21,7 @@ export default function AddReviewPage() {
     dispatch(fetchFilmById(id));
   }, [dispatch, id]);
 
-  const filmInfo = useAppSelector((store) => store.currentFilm);
+  const filmInfo = useAppSelector(selectCurrentFilm);
 
   if (params.id === undefined || filmInfo === undefined) {
     return <NotFoundPage />;
@@ -35,15 +37,7 @@ export default function AddReviewPage() {
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <header className="page-header">
-            <div className="logo">
-              <Link to="/" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </Link>
-            </div>
-
+          <Header>
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
@@ -54,18 +48,7 @@ export default function AddReviewPage() {
                 </li>
               </ul>
             </nav>
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
-          </header>
+          </Header>
 
           <div className="film-card__poster film-card__poster--small">
             <img src={filmInfo.posterImage} alt={filmInfo.name} width="218" height="327" />

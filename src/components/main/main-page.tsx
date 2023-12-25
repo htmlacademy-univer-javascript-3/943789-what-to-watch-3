@@ -1,84 +1,40 @@
-import { Link } from 'react-router-dom';
-import { AuthStatus } from '../../auth/auth-status';
-import { useAppSelector } from '../../hooks';
 import { Catalog } from './catalog/catalog';
-import React from 'react';
+import { Header } from '../layout/header';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { selectPromoFilm } from '../../stores/films/films-selectors';
+import { useEffect } from 'react';
+import { fetchPromoFilm } from '../../api/api-actions';
 
-type PromoFilmInfo = {
-  title: string;
-  genre: string;
-  releaseYear: number;
-}
+export default function MainPage() {
+  const dispatch = useAppDispatch();
+  const promoFilm = useAppSelector(selectPromoFilm);
 
-const GenreList = new Set<string>(
-  ['All genres',
-    'Comedies',
-    'Crime',
-    'Documentary',
-    'Dramas',
-    'Horror',
-    'Kids & Family',
-    'Romance',
-    'Sci-Fi',
-    'Thrillers'
-  ]
-);
-
-export default function MainPage(props: PromoFilmInfo) {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userInfo = useAppSelector((state) => state.userInfo);
+  useEffect(() => {
+    dispatch(fetchPromoFilm());
+  }, [dispatch]);
 
   return (
     <div>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={promoFilm?.backgroundImage} alt={promoFilm?.name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <header className="page-header film-card__head">
-          <div className="logo">
-            <a className="logo__link">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-
-          <ul className="user-block">
-            {
-              authorizationStatus === AuthStatus.Authorithed
-                ?
-                <React.Fragment>
-                  <li className="user-block__item">
-                    <div className="user-block__avatar">
-                      <img src={userInfo?.avatarUrl} alt="User avatar" width="63" height="63" />
-                    </div>
-                  </li>
-                  <li className="user-block__item">
-                    <a className="user-block__link">Sign out</a>
-                  </li>
-                </React.Fragment>
-                :
-                <li className="user-block_item">
-                  <Link to={'/login'} className='user-block__link'>Sign in</Link>
-                </li>
-            }
-          </ul>
-        </header>
+        <Header/>
 
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={promoFilm?.posterImage} alt={promoFilm?.name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{props.title}</h2>
+              <h2 className="film-card__title">{promoFilm?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{props.genre}</span>
-                <span className="film-card__year">{props.releaseYear}</span>
+                <span className="film-card__genre">{promoFilm?.genre}</span>
+                <span className="film-card__year">{promoFilm?.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -102,7 +58,7 @@ export default function MainPage(props: PromoFilmInfo) {
       </section>
 
       <div className="page-content">
-        <Catalog genres={GenreList} />
+        <Catalog />
 
         <footer className="page-footer">
           <div className="logo">

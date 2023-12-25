@@ -1,5 +1,5 @@
 export function Spinner() {
   return (
-    <p>Загрузка...</p>
+    <p>Download...</p>
   );
 }

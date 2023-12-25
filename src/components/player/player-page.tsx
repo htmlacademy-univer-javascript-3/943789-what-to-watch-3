@@ -1,10 +1,11 @@
 import { useParams } from 'react-router-dom';
 import NotFoundPage from '../system/not-found-page';
 import { useAppSelector } from '../../hooks';
+import { selectAllFilms } from '../../stores/films/films-selectors';
 
 export default function PlayerPage() {
   const params = useParams();
-  const films = useAppSelector((store) => store.allFilms);
+  const films = useAppSelector(selectAllFilms);
 
   if (params.id === undefined) {
     return <NotFoundPage />;

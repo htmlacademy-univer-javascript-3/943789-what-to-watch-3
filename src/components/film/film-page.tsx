@@ -6,8 +6,9 @@ import { fetchCommentsByFilmId, fetchFilmById, fetchSimilarFilmById } from '../.
 import FilmCardsList from '../film-list/film-cards-list';
 import FilmCardDesciption from './card-description/film-card-desciption';
 import { AuthStatus } from '../../auth/auth-status';
-
-const SIMILAR_FILMS_COUNT = 4;
+import { selectCurrentFilm, selectSimilarFilms } from '../../stores/current-film/current-film-selectors';
+import { selectAuthorizationStatus } from '../../stores/auth/auth-selectors';
+import { Header } from '../layout/header';
 
 export default function FilmPage() {
   const params = useParams();
@@ -25,9 +26,9 @@ export default function FilmPage() {
     dispatch(fetchSimilarFilmById(id));
   }, [dispatch, id]);
 
-  const filmInfo = useAppSelector((store) => store.currentFilm);
-  const similarFilms = useAppSelector((store) => store.similarFilms)?.slice(0, SIMILAR_FILMS_COUNT) || [];
-  const authStatus = useAppSelector((store) => store.authorizationStatus);
+  const filmInfo = useAppSelector(selectCurrentFilm);
+  const similarFilms = useAppSelector(selectSimilarFilms) || [];
+  const authStatus = useAppSelector(selectAuthorizationStatus);
 
   if (params.id === undefined || filmInfo === undefined) {
     return <NotFoundPage />;
@@ -43,26 +44,7 @@ export default function FilmPage() {
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <header className="page-header film-card__head">
-            <div className="logo">
-              <Link to="/" className="logo__link">
-                <span className="logo__letter logo__letter--1">W</span>
-                <span className="logo__letter logo__letter--2">T</span>
-                <span className="logo__letter logo__letter--3">W</span>
-              </Link>
-            </div>
-
-            <ul className="user-block">
-              <li className="user-block__item">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
-              </li>
-              <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
-              </li>
-            </ul>
-          </header>
+          <Header />
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
