@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { FilmInfo } from '../../data/films/film-info';
 import { useState } from 'react';
-import VideoPreview from '../video/video-preview';
+import VideoPlayer, { VideoState } from '../video/video-player';
 
 type Events = {
   handleMouseEnter?: React.MouseEventHandler;
@@ -15,11 +15,11 @@ type CardInfo = {
 export default function CatalogFilmCard(props: CardInfo & Events) {
   const filmInfo = props.filmInfo;
 
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [videoState, setVideoState] = useState<VideoState>(VideoState.Load);
   const [playVideoTimer, setPlayVideoTimer] = useState<NodeJS.Timeout | undefined>(undefined);
 
   const handleMouseEnter = function (event: React.MouseEvent<HTMLElement, MouseEvent>) {
-    const timeout = setTimeout(() => setIsPlaying(true), 2000);
+    const timeout = setTimeout(() => setVideoState(VideoState.Play), 2000);
     setPlayVideoTimer(timeout);
 
     props.handleMouseEnter?.(event);
@@ -27,19 +27,19 @@ export default function CatalogFilmCard(props: CardInfo & Events) {
 
   const handleMouseOut = function(event: React.MouseEvent<HTMLElement, MouseEvent>) {
     clearTimeout(playVideoTimer);
-    setIsPlaying(false);
+    setVideoState(VideoState.Load);
 
     props.handleMouseLeave?.(event);
   };
 
   return (
     <article className="small-film-card catalog__films-card" onMouseEnter={handleMouseEnter} onMouseOut={handleMouseOut}>
-      <VideoPreview
+      <VideoPlayer
         height={175}
         width={280}
         src={props.filmInfo.previewVideoLink}
         poster={props.filmInfo.previewImage}
-        isPlaying={isPlaying}
+        state={videoState}
         muted
       />
       <h3 className="small-film-card__title">
