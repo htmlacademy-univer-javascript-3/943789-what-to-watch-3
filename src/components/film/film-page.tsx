@@ -11,7 +11,6 @@ import { selectAuthorizationStatus } from '../../stores/auth/auth-selectors';
 import { Header } from '../layout/header';
 import { PlayButton } from '../common-film-components/film-card-buttons/play-button';
 import { MyListButton } from '../common-film-components/film-card-buttons/my-list-button';
-import { setPromoFilm } from '../../stores/films/films-actions';
 import { setCurrentFilm } from '../../stores/current-film/current-film-actions';
 
 export default function FilmPage() {
