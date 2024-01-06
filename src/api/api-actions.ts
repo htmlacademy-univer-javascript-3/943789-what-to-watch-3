@@ -26,7 +26,7 @@ export const fetchFilms = createAsyncThunk<void, undefined, ThunkContext>(
   async (_arg, { dispatch, extra: api }) => {
     dispatch(setLoadedStatus(false));
     const { data } = await api.get<FilmInfo[]>('/films');
-    const genres = new Set(data.map((film) => film.genre));
+    const genres = [...new Set(data.map((film) => film.genre))];
     dispatch(setFilms(data));
     dispatch(setGenres(genres));
     dispatch(setLoadedStatus(true));
@@ -124,5 +124,17 @@ export const getAuthData = createAsyncThunk<void, AuthData, ThunkContext>(
       dispatch(updateAuthStatus(AuthStatus.AuthRequired));
       dispatch(updateUserInfo(undefined));
     }
+  }
+);
+
+export const logout = createAsyncThunk<void, undefined, ThunkContext>(
+  'auth/logout',
+  async (_arg, {dispatch, extra: api}) => {
+    await api.delete('/logout');
+
+    delete api.defaults.headers.common[Headers.AuthHeader];
+
+    dispatch(updateUserInfo(undefined));
+    dispatch(updateAuthStatus(AuthStatus.AuthRequired));
   }
 );

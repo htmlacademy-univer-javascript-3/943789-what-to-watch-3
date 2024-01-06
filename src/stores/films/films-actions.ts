@@ -6,7 +6,7 @@ export const filterFilms = createAction('films/filter');
 
 export const setFilms = createAction<FilmInfo[]>('films/upload');
 
-export const setGenres = createAction<Set<string>>('genres/upload');
+export const setGenres = createAction<string[]>('genres/upload');
 
 export const setLoadingStatus = createAction<boolean>('loading-status/set');
 

@@ -5,7 +5,7 @@ import { PromoFilmInfo } from '../../data/films/promo-film-info';
 import { AllGenresFilter } from '../../data/consts/all-genres-filter';
 
 type Store = {
-  genres: Set<string>;
+  genres: string[];
   currentGenre: string;
   filteredFilms: FilmInfo[];
   allFilms: FilmInfo[];
@@ -14,7 +14,7 @@ type Store = {
 };
 
 const initialStore: Store = {
-  genres: new Set(),
+  genres: [],
   currentGenre: AllGenresFilter,
   filteredFilms: [],
   allFilms: [],
