@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom';
-import { FilmInfo } from '../../data/films/film-info';
-import FilmCardsList from '../film-list/film-cards-list';
+import FilmCardsList from '../common-film-components/film-cards-list';
 import { Header } from '../layout/header';
+import { useAppSelector } from '../../hooks';
+import { selectFavorites } from '../../stores/favorites/favorites-selectors';
 
-export default function MyListPage({films} : {films: FilmInfo[]}) {
+export default function MyListPage() {
+  const films = useAppSelector(selectFavorites);
+
   return (
     <div>
       <div className="user-page">
         <Header>
-          <h1 className="page-title user-page__title">My list <span className="user-page__film-count">9</span></h1>
+          <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{films.length}</span></h1>
         </Header>
 
         <section className="catalog">

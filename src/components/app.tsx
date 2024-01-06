@@ -9,19 +9,25 @@ import NotFoundPage from './system/not-found-page';
 import AuthRequired from './system/auth-protected';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { Spinner } from './system/spinner';
-import { selectAllFilms, selectLoadedStatus } from '../stores/films/films-selectors';
+import { selectLoadedStatus } from '../stores/films/films-selectors';
 import { useEffect } from 'react';
-import { fetchFilms, verifyAuth } from '../api/api-actions';
+import { fetchFavoritesFilms, fetchFilms, verifyAuth } from '../api/api-actions';
+import { selectAuthorizationStatus } from '../stores/auth/auth-selectors';
+import { AuthStatus } from '../auth/auth-status';
 
 export default function App() {
   const dispath = useAppDispatch();
   const loaded = useAppSelector(selectLoadedStatus);
-  const films = useAppSelector(selectAllFilms);
+  const authStatus = useAppSelector(selectAuthorizationStatus);
 
   useEffect(() => {
     dispath(fetchFilms());
     dispath(verifyAuth());
-  }, [dispath]);
+
+    if (authStatus === AuthStatus.Authorithed) {
+      dispath(fetchFavoritesFilms());
+    }
+  }, [dispath, authStatus]);
 
   if (!loaded) {
     return <Spinner />;
@@ -35,7 +41,7 @@ export default function App() {
           <Route path="login" element={<SignInPage />} />
           <Route path="mylist" element={
             <AuthRequired>
-              <MyListPage films={films} />
+              <MyListPage />
             </AuthRequired>
           }
           />

@@ -14,7 +14,7 @@ export function GenreList() {
   const dispatch = useAppDispatch();
 
   const selectedGenre = useAppSelector(selectCurrentGenre);
-  const genres = [... useAppSelector(selectGenres)];
+  const genres = [...useAppSelector(selectGenres)];
   prepareGenreList(genres);
 
   return (
