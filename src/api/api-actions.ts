@@ -14,6 +14,9 @@ import { setCurrentFilm, setSimilarFilms, setCommentsForCurrent } from '../store
 import { setFilms, setGenres, setLoadingStatus as setLoadedStatus, setPromoFilm } from '../stores/films/films-actions';
 import { Headers } from './headers';
 import { AuthError } from '../auth/auth-error';
+import { addToFavorites, removeFromFavoritesById, updateFavorites } from '../stores/favorites/favorites-action';
+import { FavoriteStatus, FavoriteStatusInfo } from '../data/films/favorite-status-info';
+import { FullFilmInfo } from '../data/films/full-film-info';
 
 type ThunkContext = {
   dispatch: AppDispatch;
@@ -26,7 +29,7 @@ export const fetchFilms = createAsyncThunk<void, undefined, ThunkContext>(
   async (_arg, { dispatch, extra: api }) => {
     dispatch(setLoadedStatus(false));
     const { data } = await api.get<FilmInfo[]>('/films');
-    const genres = new Set(data.map((film) => film.genre));
+    const genres = [...new Set(data.map((film) => film.genre))];
     dispatch(setFilms(data));
     dispatch(setGenres(genres));
     dispatch(setLoadedStatus(true));
@@ -83,6 +86,27 @@ export const addCommentToFilmById = createAsyncThunk<void, CommentToCreate, Thun
     try {
       await api.post(`/comments/${filmId}`, {comment, rating});
     } catch { /* empty */ }
+  }
+);
+
+export const fetchFavoritesFilms = createAsyncThunk<void, undefined, ThunkContext>(
+  'favorites/get',
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.get<FilmInfo[]>('/favorite');
+    dispatch(updateFavorites(data));
+  }
+);
+
+export const changeFavoriteStatus = createAsyncThunk<void, FavoriteStatusInfo, ThunkContext>(
+  'favorites/changeStatus',
+  async ({filmId, status}, {dispatch, extra: api}) => {
+    const { data } = await api.post<FullFilmInfo>(`/favorite/${filmId}/${status}`);
+
+    if (status === FavoriteStatus.ToWatch) {
+      dispatch(addToFavorites(data));
+    } else {
+      dispatch(removeFromFavoritesById(filmId));
+    }
   }
 );
 

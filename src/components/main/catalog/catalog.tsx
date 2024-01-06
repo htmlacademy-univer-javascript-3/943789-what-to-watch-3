@@ -1,4 +1,4 @@
-import FilmCardsList from '../../film-list/film-cards-list';
+import FilmCardsList from '../../common-film-components/film-cards-list';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { GenreList } from './genre-list';
 import { useEffect, useState } from 'react';
