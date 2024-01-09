@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosInstance } from 'axios';
 import { FilmInfo } from '../data/films/film-info';
-import { AuthStatus } from '../auth/auth-status';
-import { UserInfo } from '../auth/user-info';
-import { AuthData } from '../auth/auth-data';
+import { AuthStatus } from '../data/auth/auth-status';
+import { UserInfo } from '../data/auth/user-info';
+import { AuthData } from '../data/auth/auth-data';
 import { EnrichedFilmInfo } from '../data/films/enriched-film-info';
 import { CommentInfo } from '../data/comments/comment-info';
 import { CommentToCreate } from '../data/comments/comment-to-create';
@@ -13,10 +13,11 @@ import { updateAuthError, updateAuthStatus, updateUserInfo } from '../stores/aut
 import { setCurrentFilm, setSimilarFilms, setCommentsForCurrent } from '../stores/current-film/current-film-actions';
 import { setFilms, setGenres, setLoadingStatus as setLoadedStatus, setPromoFilm } from '../stores/films/films-actions';
 import { Headers } from './headers';
-import { AuthError } from '../auth/auth-error';
+import { AuthError } from '../data/auth/auth-error';
 import { addToFavorites, removeFromFavoritesById, updateFavorites } from '../stores/favorites/favorites-action';
 import { FavoriteStatus, FavoriteStatusInfo } from '../data/films/favorite-status-info';
 import { FullFilmInfo } from '../data/films/full-film-info';
+import { ApiError } from '../data/api-common/api-error';
 
 type ThunkContext = {
   dispatch: AppDispatch;
@@ -82,10 +83,18 @@ export const fetchCommentsByFilmId = createAsyncThunk<void, string, ThunkContext
 
 export const addCommentToFilmById = createAsyncThunk<void, CommentToCreate, ThunkContext>(
   'comments/addToFilmById',
-  async ({filmId, comment, rating}, { extra: api }) => {
+  async ({filmId, comment, rating}, { rejectWithValue, extra: api }) => {
     try {
       await api.post(`/comments/${filmId}`, {comment, rating});
-    } catch { /* empty */ }
+    } catch (err) {
+      if (!axios.isAxiosError(err)) {
+        return rejectWithValue('Unknown message');
+      } else {
+        const apiError = err.response?.data as ApiError;
+
+        return rejectWithValue(apiError.message);
+      }
+    }
   }
 );
 

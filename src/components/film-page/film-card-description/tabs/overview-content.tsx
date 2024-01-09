@@ -2,6 +2,8 @@ import React from 'react';
 import { useAppSelector } from '../../../../hooks';
 import { selectCurrentFilm } from '../../../../stores/current-film/current-film-selectors';
 
+const RATING_FRACTION_LENGTH = 1;
+
 function GetRatingLevelByScore(score: number) {
   switch (true) {
     case score < 3:
@@ -27,7 +29,7 @@ export default function OverviewContent() {
   return (
     <React.Fragment>
       <div className="film-rating">
-        <div className="film-rating__score">{filmInfo.rating}</div>
+        <div className="film-rating__score">{filmInfo.rating.toFixed(RATING_FRACTION_LENGTH)}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">{GetRatingLevelByScore(filmInfo.rating)}</span>
           <span className="film-rating__count">{filmInfo.scoresCount} ratings</span>

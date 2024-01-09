@@ -4,14 +4,16 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useCallback, useEffect } from 'react';
 import { fetchCommentsByFilmId, fetchFilmById, fetchSimilarFilmById } from '../../api/api-actions';
 import FilmCardsList from '../common-film-components/film-cards-list';
-import FilmCardDesciption from './card-description/film-card-desciption';
-import { AuthStatus } from '../../auth/auth-status';
+import { AuthStatus } from '../../data/auth/auth-status';
 import { selectCurrentFilm, selectSimilarFilms } from '../../stores/current-film/current-film-selectors';
 import { selectAuthorizationStatus } from '../../stores/auth/auth-selectors';
 import { Header } from '../layout/header';
 import { PlayButton } from '../common-film-components/film-card-buttons/play-button';
 import { MyListButton } from '../common-film-components/film-card-buttons/my-list-button';
 import { setCurrentFilm } from '../../stores/current-film/current-film-actions';
+import FilmCardDesciption from './film-card-description/film-card-desciption';
+
+const SIMILAR_FILMS_MAX_COUNT = 4;
 
 export default function FilmPage() {
   const params = useParams();
@@ -30,7 +32,7 @@ export default function FilmPage() {
   }, [dispatch, id]);
 
   const filmInfo = useAppSelector(selectCurrentFilm);
-  const similarFilms = useAppSelector(selectSimilarFilms) || [];
+  const similarFilms = useAppSelector(selectSimilarFilms)?.slice(0, SIMILAR_FILMS_MAX_COUNT) || [];
   const authStatus = useAppSelector(selectAuthorizationStatus);
 
   const afterMyListCallback = useCallback(() => {

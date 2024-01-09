@@ -4,6 +4,8 @@ import { setCurrentGenre } from '../../../stores/films/films-actions';
 import { selectCurrentGenre, selectGenres } from '../../../stores/films/films-selectors';
 import { AllGenresFilter } from '../../../data/consts/all-genres-filter';
 
+const MAX_GENRES_COUNT = 9;
+
 function prepareGenreList(genres: string[]) {
   genres.sort();
 
@@ -14,7 +16,7 @@ export function GenreList() {
   const dispatch = useAppDispatch();
 
   const selectedGenre = useAppSelector(selectCurrentGenre);
-  const genres = [...useAppSelector(selectGenres)];
+  const genres = useAppSelector(selectGenres).slice(0, MAX_GENRES_COUNT);
   prepareGenreList(genres);
 
   return (

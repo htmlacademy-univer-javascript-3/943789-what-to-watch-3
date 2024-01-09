@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
-import { AuthStatus } from '../../auth/auth-status';
-import { UserInfo } from '../../auth/user-info';
-import { AuthError } from '../../auth/auth-error';
+import { AuthStatus } from '../../data/auth/auth-status';
+import { UserInfo } from '../../data/auth/user-info';
+import { AuthError } from '../../data/auth/auth-error';
 
 export const updateAuthStatus = createAction<AuthStatus>('auth-status/update');
 

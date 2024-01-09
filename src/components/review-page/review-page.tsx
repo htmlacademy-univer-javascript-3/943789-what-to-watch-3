@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import { selectCurrentFilm } from '../../stores/current-film/current-film-selectors';
 import { Header } from '../layout/header';
 
-export default function AddReviewPage() {
+export default function ReviewPage() {
   const params = useParams();
   const dispatch = useAppDispatch();
 
@@ -41,7 +41,7 @@ export default function AddReviewPage() {
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <Link to={'..'} className="breadcrumbs__link">{filmInfo.name}</Link>
+                  <Link to={`/films/${filmInfo.id}`} className="breadcrumbs__link">{filmInfo.name}</Link>
                 </li>
                 <li className="breadcrumbs__item">
                   <a className="breadcrumbs__link">Add review</a>

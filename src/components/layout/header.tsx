@@ -1,6 +1,6 @@
 import React, { ReactNode, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthStatus } from '../../auth/auth-status';
+import { AuthStatus } from '../../data/auth/auth-status';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectAuthorizationStatus, selectUserInfo } from '../../stores/auth/auth-selectors';
 import { logout } from '../../api/api-actions';
@@ -39,7 +39,7 @@ export function Header({ children }: { children?: ReactNode }) {
                 </Link>
               </li>
               <li className="user-block__item">
-                <button className="user-block__link" onClick={handleLogoutClick}>Sign out</button>
+                <a className="user-block__link" onClick={handleLogoutClick}>Sign out</a>
               </li>
             </React.Fragment>
             :

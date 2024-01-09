@@ -21,7 +21,7 @@ export default function FilmCardsList(info: ListInfo) {
             key={film.id}
             filmInfo={film}
             handleMouseEnter={() => setState({ activeFilmId: film.id })}
-            handleMouseLeave={() => setState({activeFilmId: null})}
+            handleMouseLeave={() => setState({ activeFilmId: null })}
           />
         ))}
     </div>
