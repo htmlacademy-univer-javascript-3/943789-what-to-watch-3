@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchFilmById } from '../../api/api-actions';
 import { selectCurrentFilm } from '../../stores/current-film/current-film-selectors';
-import VideoPlayer, { VideoState } from '../video/video-player';
+import VideoPlayer, { VideoState } from '../video-player/video-player';
 
 const MINUTES_IN_HOUR = 60;
 const SECOND_IN_MINUTE = 60;
@@ -74,7 +74,7 @@ export default function PlayerPage() {
   return (
     <div ref={pageRef}>
       <div className="player">
-        <VideoPlayer src={filmInfo.videoLink} muted={false} poster={filmInfo.backgroundImage} state={videoState} className='player__video' onTimeUpdate={handleVideoTimeUpdate} onDurationUpdate={handleVideoDurationUpdate} />
+        <VideoPlayer src={filmInfo.videoLink} poster={filmInfo.backgroundImage} state={videoState} className='player__video' onTimeUpdate={handleVideoTimeUpdate} onDurationUpdate={handleVideoDurationUpdate} muted={false} />
 
         <Link to={`/films/${filmId}`} type="button" className="player__exit">Exit</Link>
 

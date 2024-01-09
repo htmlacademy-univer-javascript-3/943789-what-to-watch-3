@@ -1,8 +1,8 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { AuthStatus } from '../../auth/auth-status';
-import { UserInfo } from '../../auth/user-info';
+import { AuthStatus } from '../../data/auth/auth-status';
+import { UserInfo } from '../../data/auth/user-info';
 import { updateAuthError, updateAuthStatus, updateUserInfo } from './auth-actions';
-import { AuthError } from '../../auth/auth-error';
+import { AuthError } from '../../data/auth/auth-error';
 
 type Store = {
   authorizationStatus: AuthStatus;

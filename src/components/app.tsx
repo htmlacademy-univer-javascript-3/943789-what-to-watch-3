@@ -1,10 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import MainPage from './main/main-page';
-import SignInPage from './sign-in/sign-in-page';
-import MyListPage from './my-list/my-list-page';
-import FilmPage from './film/film-page';
-import AddReviewPage from './review/add-review-page';
-import PlayerPage from './player/player-page';
+import MainPage from './main-page/main-page';
+import SignInPage from './sign-in-page/sign-in-page';
+import MyListPage from './my-list-page/my-list-page';
+import ReviewPage from './review-page/review-page';
+import PlayerPage from './player-page/player-page';
 import NotFoundPage from './system/not-found-page';
 import AuthRequired from './system/auth-protected';
 import { useAppDispatch, useAppSelector } from '../hooks';
@@ -13,7 +12,8 @@ import { selectLoadedStatus } from '../stores/films/films-selectors';
 import { useEffect } from 'react';
 import { fetchFavoritesFilms, fetchFilms, verifyAuth } from '../api/api-actions';
 import { selectAuthorizationStatus } from '../stores/auth/auth-selectors';
-import { AuthStatus } from '../auth/auth-status';
+import { AuthStatus } from '../data/auth/auth-status';
+import FilmPage from './film-page/film-page';
 
 export default function App() {
   const dispath = useAppDispatch();
@@ -23,7 +23,9 @@ export default function App() {
   useEffect(() => {
     dispath(fetchFilms());
     dispath(verifyAuth());
+  }, [dispath]);
 
+  useEffect(() => {
     if (authStatus === AuthStatus.Authorithed) {
       dispath(fetchFavoritesFilms());
     }
@@ -48,7 +50,7 @@ export default function App() {
           <Route path="films/:id" element={<FilmPage />} />
           <Route path="films/:id/review" element={
             <AuthRequired>
-              <AddReviewPage />
+              <ReviewPage />
             </AuthRequired>
           }
           />

@@ -1,12 +1,18 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { AuthStatus } from '../../auth/auth-status';
-import { useAppSelector } from '../../hooks';
+import { AuthStatus } from '../../data/auth/auth-status';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectAuthorizationStatus, selectUserInfo } from '../../stores/auth/auth-selectors';
+import { logout } from '../../api/api-actions';
 
 export function Header({ children }: { children?: ReactNode }) {
+  const dispatch = useAppDispatch();
   const authorizationStatus = useAppSelector(selectAuthorizationStatus);
   const userInfo = useAppSelector(selectUserInfo);
+
+  const handleLogoutClick = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
 
   return (
     <header className="page-header film-card__head">
@@ -33,7 +39,7 @@ export function Header({ children }: { children?: ReactNode }) {
                 </Link>
               </li>
               <li className="user-block__item">
-                <a className="user-block__link">Sign out</a>
+                <a className="user-block__link" onClick={handleLogoutClick}>Sign out</a>
               </li>
             </React.Fragment>
             :

@@ -1,7 +1,7 @@
-import { AuthStatus } from '../../auth/auth-status';
+import { AuthStatus } from '../../data/auth/auth-status';
 import { useAppSelector } from '../../hooks';
 import { selectAuthorizationStatus } from '../../stores/auth/auth-selectors';
-import SignInPage from '../sign-in/sign-in-page';
+import SignInPage from '../sign-in-page/sign-in-page';
 
 type Props = {
   children: JSX.Element;

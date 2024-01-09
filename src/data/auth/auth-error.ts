@@ -1,9 +1,9 @@
+import { ApiError } from '../api-common/api-error';
+
 export type AuthError = {
-  errorType: string;
-  message: string;
   details: {
     property: string;
     value: string;
     messages: string[];
   }[];
-};
+} & ApiError;

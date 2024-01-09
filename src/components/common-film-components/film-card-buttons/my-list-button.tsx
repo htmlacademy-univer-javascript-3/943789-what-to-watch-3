@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { changeFavoriteStatus } from '../../../api/api-actions';
-import { AuthStatus } from '../../../auth/auth-status';
+import { AuthStatus } from '../../../data/auth/auth-status';
 import { FavoriteStatus } from '../../../data/films/favorite-status-info';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { selectAuthorizationStatus } from '../../../stores/auth/auth-selectors';

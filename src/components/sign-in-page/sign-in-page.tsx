@@ -1,7 +1,7 @@
 import { useRef, FormEvent, useCallback, useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { AuthStatus } from '../../auth/auth-status';
+import { AuthStatus } from '../../data/auth/auth-status';
 import { getAuthData } from '../../api/api-actions';
 import { selectAuthError, selectAuthorizationStatus } from '../../stores/auth/auth-selectors';
 import { Header } from '../layout/header';

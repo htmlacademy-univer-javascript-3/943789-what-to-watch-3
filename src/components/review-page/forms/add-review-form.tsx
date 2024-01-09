@@ -1,8 +1,9 @@
-import React, { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { addCommentToFilmById } from '../../../api/api-actions';
 import { useNavigate } from 'react-router-dom';
 import { selectCurrentFilm } from '../../../stores/current-film/current-film-selectors';
+import React from 'react';
 
 type FormData = {
   rating: string;
@@ -12,7 +13,7 @@ type FormData = {
 function validateFormData(formData: FormData) {
   const rating = parseInt(formData.rating, 10);
 
-  if (isNaN(rating) || rating < 1 || rating > 10) {
+  if (isNaN(rating) || rating < 1 || rating > 1000) {
     return false;
   }
 
@@ -27,10 +28,13 @@ export default function AddReviewForm() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = React.useState<FormData>({
+  const [formData, setFormData] = useState<FormData>({
     rating: '0',
     'review-text': ''
   });
+
+  const [submitDisabled, setSubmitDisabled] = useState<boolean>(false);
+  const [reviewErrorMessage, setReviewErrorMessage] = useState<string | undefined>();
 
   const filmId = useAppSelector(selectCurrentFilm)?.id;
 
@@ -43,6 +47,7 @@ export default function AddReviewForm() {
     const { name, value } = evt.target as HTMLInputElement;
     const newFormData = { ...formData, [name]: value };
     setFormData(newFormData);
+    setReviewErrorMessage(undefined);
   };
 
   const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
@@ -50,19 +55,26 @@ export default function AddReviewForm() {
 
     const formDataToSend = {...formData};
 
-    if (!validateFormData(formDataToSend)) {
-      return;
-    }
-
     const rating = parseInt(formDataToSend.rating, 10);
-    dispatch(addCommentToFilmById({ comment: formDataToSend['review-text'], rating: rating, filmId: filmId }));
-    navigate(`/films/${filmId}`);
+    setSubmitDisabled(true);
+    dispatch(addCommentToFilmById({ comment: formDataToSend['review-text'], rating: rating, filmId: filmId }))
+      .unwrap()
+      .then(() => {
+        navigate(`/films/${filmId}`);
+      })
+      .catch((reason: string) => {
+        setReviewErrorMessage(reason);
+      });
+
+    setSubmitDisabled(false);
   };
 
   const ratingOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].reverse();
 
   return (
     <form action="#" className="add-review__form" onSubmit={handleSubmit}>
+      {reviewErrorMessage}
+
       <div className="rating">
         <div className="rating__stars">
           {ratingOptions.map((rating) =>
@@ -79,7 +91,7 @@ export default function AddReviewForm() {
       <div className="add-review__text">
         <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" onChange={handleFieldChange}></textarea>
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
+          <button className="add-review__btn" disabled={!validateFormData(formData) || submitDisabled} type="submit">Post</button>
         </div>
 
       </div>
