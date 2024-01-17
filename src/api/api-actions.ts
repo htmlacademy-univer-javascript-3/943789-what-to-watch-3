@@ -18,6 +18,7 @@ import { addToFavorites, removeFromFavoritesById, updateFavorites } from '../sto
 import { FavoriteStatus, FavoriteStatusInfo } from '../data/films/favorite-status-info';
 import { FullFilmInfo } from '../data/films/full-film-info';
 import { ApiError } from '../data/api-common/api-error';
+import { setServerAvaible } from '../stores/system/system-actions';
 
 type ThunkContext = {
   dispatch: AppDispatch;
@@ -29,11 +30,16 @@ export const fetchFilms = createAsyncThunk<void, undefined, ThunkContext>(
   'films/fetch',
   async (_arg, { dispatch, extra: api }) => {
     dispatch(setLoadedStatus(false));
-    const { data } = await api.get<FilmInfo[]>('/films');
-    const genres = [...new Set(data.map((film) => film.genre))];
-    dispatch(setFilms(data));
-    dispatch(setGenres(genres));
-    dispatch(setLoadedStatus(true));
+    try {
+      const { data } = await api.get<FilmInfo[]>('/films');
+      const genres = [...new Set(data.map((film) => film.genre))];
+      dispatch(setFilms(data));
+      dispatch(setGenres(genres));
+      dispatch(setLoadedStatus(true));
+      dispatch(setServerAvaible(true));
+    } catch {
+      dispatch(setServerAvaible(false));
+    }
   },
 );
 
@@ -43,8 +49,10 @@ export const fetchFilmById = createAsyncThunk<void, string, ThunkContext>(
     try {
       const { data } = await api.get<EnrichedFilmInfo>(`/films/${id}`);
       dispatch(setCurrentFilm(data));
+      dispatch(setServerAvaible(true));
     } catch {
       dispatch(setCurrentFilm(undefined));
+      dispatch(setServerAvaible(false));
     }
   },
 );
@@ -55,8 +63,10 @@ export const fetchSimilarFilmById = createAsyncThunk<void, string, ThunkContext>
     try {
       const { data } = await api.get<FilmInfo[]>(`/films/${id}/similar`);
       dispatch(setSimilarFilms(data));
+      dispatch(setServerAvaible(true));
     } catch {
       dispatch(setSimilarFilms(undefined));
+      dispatch(setServerAvaible(false));
     }
   },
 );
@@ -64,8 +74,13 @@ export const fetchSimilarFilmById = createAsyncThunk<void, string, ThunkContext>
 export const fetchPromoFilm = createAsyncThunk<void, undefined, ThunkContext>(
   'films/fetchPromoFilm',
   async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<PromoFilmInfo>('/promo');
-    dispatch(setPromoFilm(data));
+    try {
+      const { data } = await api.get<PromoFilmInfo>('/promo');
+      dispatch(setPromoFilm(data));
+      dispatch(setServerAvaible(true));
+    } catch {
+      dispatch(setServerAvaible(false));
+    }
   },
 );
 
@@ -75,17 +90,19 @@ export const fetchCommentsByFilmId = createAsyncThunk<void, string, ThunkContext
     try {
       const { data } = await api.get<CommentInfo[]>(`/comments/${filmId}`);
       dispatch(setCommentsForCurrent(data));
+      dispatch(setServerAvaible(true));
     } catch {
       dispatch(setCommentsForCurrent(undefined));
+      dispatch(setServerAvaible(false));
     }
   },
 );
 
 export const addCommentToFilmById = createAsyncThunk<void, CommentToCreate, ThunkContext>(
   'comments/addToFilmById',
-  async ({filmId, comment, rating}, { rejectWithValue, extra: api }) => {
+  async ({ filmId, comment, rating }, { rejectWithValue, extra: api }) => {
     try {
-      await api.post(`/comments/${filmId}`, {comment, rating});
+      await api.post(`/comments/${filmId}`, { comment, rating });
     } catch (err) {
       if (!axios.isAxiosError(err)) {
         return rejectWithValue('Unknown message');
@@ -101,20 +118,30 @@ export const addCommentToFilmById = createAsyncThunk<void, CommentToCreate, Thun
 export const fetchFavoritesFilms = createAsyncThunk<void, undefined, ThunkContext>(
   'favorites/get',
   async (_arg, { dispatch, extra: api }) => {
-    const { data } = await api.get<FilmInfo[]>('/favorite');
-    dispatch(updateFavorites(data));
+    try {
+      const { data } = await api.get<FilmInfo[]>('/favorite');
+      dispatch(updateFavorites(data));
+      dispatch(setServerAvaible(true));
+    } catch {
+      dispatch(setServerAvaible(false));
+    }
   }
 );
 
 export const changeFavoriteStatus = createAsyncThunk<void, FavoriteStatusInfo, ThunkContext>(
   'favorites/changeStatus',
-  async ({filmId, status}, {dispatch, extra: api}) => {
-    const { data } = await api.post<FullFilmInfo>(`/favorite/${filmId}/${status}`);
+  async ({ filmId, status }, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.post<FullFilmInfo>(`/favorite/${filmId}/${status}`);
 
-    if (status === FavoriteStatus.ToWatch) {
-      dispatch(addToFavorites(data));
-    } else {
-      dispatch(removeFromFavoritesById(filmId));
+      if (status === FavoriteStatus.ToWatch) {
+        dispatch(addToFavorites(data));
+      } else {
+        dispatch(removeFromFavoritesById(filmId));
+      }
+      dispatch(setServerAvaible(true));
+    } catch {
+      dispatch(setServerAvaible(false));
     }
   }
 );
@@ -126,9 +153,11 @@ export const verifyAuth = createAsyncThunk<void, undefined, ThunkContext>(
       const { data } = await api.get<UserInfo>('/login');
       dispatch(updateAuthStatus(AuthStatus.Authorithed));
       dispatch(updateUserInfo(data));
+      dispatch(setServerAvaible(true));
     } catch {
       dispatch(updateAuthStatus(AuthStatus.AuthRequired));
       dispatch(updateUserInfo(undefined));
+      dispatch(setServerAvaible(false));
     }
   }
 );
@@ -141,9 +170,11 @@ export const getAuthData = createAsyncThunk<void, AuthData, ThunkContext>(
       dispatch(updateAuthStatus(AuthStatus.Authorithed));
       dispatch(updateUserInfo(data));
       dispatch(updateAuthError(undefined));
+      dispatch(setServerAvaible(true));
       api.defaults.headers.common[Headers.AuthHeader] = data.token;
     } catch (err) {
       if (!axios.isAxiosError(err)) {
+        dispatch(setServerAvaible(false));
         return;
       }
 
@@ -153,6 +184,7 @@ export const getAuthData = createAsyncThunk<void, AuthData, ThunkContext>(
         dispatch(updateAuthError(authError));
       } else {
         dispatch(updateAuthError(undefined));
+        dispatch(setServerAvaible(false));
       }
       dispatch(updateAuthStatus(AuthStatus.AuthRequired));
       dispatch(updateUserInfo(undefined));
@@ -162,7 +194,7 @@ export const getAuthData = createAsyncThunk<void, AuthData, ThunkContext>(
 
 export const logout = createAsyncThunk<void, undefined, ThunkContext>(
   'auth/logout',
-  async (_arg, {dispatch, extra: api}) => {
+  async (_arg, { dispatch, extra: api }) => {
     await api.delete('/logout');
 
     delete api.defaults.headers.common[Headers.AuthHeader];

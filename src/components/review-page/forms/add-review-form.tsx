@@ -33,7 +33,7 @@ export default function AddReviewForm() {
     'review-text': ''
   });
 
-  const [submitDisabled, setSubmitDisabled] = useState<boolean>(false);
+  const [formDisabled, setFormDisabled] = useState<boolean>(false);
   const [reviewErrorMessage, setReviewErrorMessage] = useState<string | undefined>();
 
   const filmId = useAppSelector(selectCurrentFilm)?.id;
@@ -56,7 +56,7 @@ export default function AddReviewForm() {
     const formDataToSend = {...formData};
 
     const rating = parseInt(formDataToSend.rating, 10);
-    setSubmitDisabled(true);
+    setFormDisabled(true);
     dispatch(addCommentToFilmById({ comment: formDataToSend['review-text'], rating: rating, filmId: filmId }))
       .unwrap()
       .then(() => {
@@ -66,7 +66,7 @@ export default function AddReviewForm() {
         setReviewErrorMessage(reason);
       });
 
-    setSubmitDisabled(false);
+    setFormDisabled(false);
   };
 
   const ratingOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].reverse();
@@ -80,7 +80,7 @@ export default function AddReviewForm() {
           {ratingOptions.map((rating) =>
             (
               <React.Fragment key={rating}>
-                <input className="rating__input" id={`star-${rating}`} type="radio" name="rating" value={rating} onChange={handleFieldChange} />
+                <input className="rating__input" id={`star-${rating}`} type="radio" name="rating" disabled={formDisabled} value={rating} onChange={handleFieldChange} />
                 <label className="rating__label" htmlFor={`star-${rating}`}>Rating {rating}</label>
               </React.Fragment>
             )
@@ -89,9 +89,9 @@ export default function AddReviewForm() {
       </div>
 
       <div className="add-review__text">
-        <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" onChange={handleFieldChange}></textarea>
+        <textarea className="add-review__textarea" disabled={formDisabled} name="review-text" id="review-text" placeholder="Review text" onChange={handleFieldChange}></textarea>
         <div className="add-review__submit">
-          <button className="add-review__btn" disabled={!validateFormData(formData) || submitDisabled} type="submit">Post</button>
+          <button className="add-review__btn" disabled={!validateFormData(formData) || formDisabled} type="submit">Post</button>
         </div>
 
       </div>

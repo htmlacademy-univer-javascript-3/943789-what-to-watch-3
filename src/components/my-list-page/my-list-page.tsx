@@ -1,16 +1,19 @@
 import { Link } from 'react-router-dom';
 import FilmCardsList from '../common-film-components/film-cards-list';
-import { Header } from '../layout/header';
+import { Header, HeaderType } from '../layout/header';
 import { useAppSelector } from '../../hooks';
 import { selectFavorites } from '../../stores/favorites/favorites-selectors';
+import { ServerUnavaibleMessage } from '../system/server-unavaible-message';
 
 export default function MyListPage() {
   const films = useAppSelector(selectFavorites);
 
   return (
     <div>
+      <ServerUnavaibleMessage/>
+
       <div className="user-page">
-        <Header>
+        <Header type={HeaderType.UserPage} hideUserBlock={false}>
           <h1 className="page-title user-page__title">My list <span className="user-page__film-count">{films.length}</span></h1>
         </Header>
 
