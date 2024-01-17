@@ -7,11 +7,12 @@ import FilmCardsList from '../common-film-components/film-cards-list';
 import { AuthStatus } from '../../data/auth/auth-status';
 import { selectCurrentFilm, selectSimilarFilms } from '../../stores/current-film/current-film-selectors';
 import { selectAuthorizationStatus } from '../../stores/auth/auth-selectors';
-import { Header } from '../layout/header';
+import { Header, HeaderType } from '../layout/header';
 import { PlayButton } from '../common-film-components/film-card-buttons/play-button';
 import { MyListButton } from '../common-film-components/film-card-buttons/my-list-button';
 import { setCurrentFilm } from '../../stores/current-film/current-film-actions';
 import FilmCardDesciption from './film-card-description/film-card-desciption';
+import { ServerUnavaibleMessage } from '../system/server-unavaible-message';
 
 const SIMILAR_FILMS_MAX_COUNT = 4;
 
@@ -49,6 +50,8 @@ export default function FilmPage() {
 
   return (
     <div>
+      <ServerUnavaibleMessage/>
+
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
@@ -57,7 +60,7 @@ export default function FilmPage() {
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <Header />
+          <Header type={HeaderType.FilmCard} hideUserBlock={false}/>
 
           <div className="film-card__wrap">
             <div className="film-card__desc">

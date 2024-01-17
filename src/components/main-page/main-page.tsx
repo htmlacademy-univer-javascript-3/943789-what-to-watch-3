@@ -1,5 +1,5 @@
 import { Catalog } from './catalog/catalog';
-import { Header } from '../layout/header';
+import { Header, HeaderType } from '../layout/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { selectPromoFilm } from '../../stores/films/films-selectors';
 import { useCallback, useEffect } from 'react';
@@ -7,6 +7,7 @@ import { fetchPromoFilm } from '../../api/api-actions';
 import { setPromoFilm } from '../../stores/films/films-actions';
 import { PlayButton } from '../common-film-components/film-card-buttons/play-button';
 import { MyListButton } from '../common-film-components/film-card-buttons/my-list-button';
+import { ServerUnavaibleMessage } from '../system/server-unavaible-message';
 
 export default function MainPage() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,8 @@ export default function MainPage() {
 
   return (
     <div>
+      <ServerUnavaibleMessage/>
+
       <section className="film-card">
         <div className="film-card__bg">
           <img src={promoFilm?.backgroundImage} alt={promoFilm?.name} />
@@ -33,7 +36,7 @@ export default function MainPage() {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <Header />
+        <Header type={HeaderType.FilmCard} hideUserBlock={false}/>
 
         {
           promoFilm === undefined ? null :

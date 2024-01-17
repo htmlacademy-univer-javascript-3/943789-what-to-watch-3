@@ -1,11 +1,12 @@
 import { useRef, FormEvent, useCallback, useState, useEffect } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { AuthStatus } from '../../data/auth/auth-status';
 import { getAuthData } from '../../api/api-actions';
 import { selectAuthError, selectAuthorizationStatus } from '../../stores/auth/auth-selectors';
-import { Header } from '../layout/header';
+import { Header, HeaderType } from '../layout/header';
 import classNames from 'classnames';
+import { ServerUnavaibleMessage } from '../system/server-unavaible-message';
 
 type ErrorVisibility = {
   password: boolean;
@@ -15,6 +16,7 @@ type ErrorVisibility = {
 
 export default function SignInPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const authStatus = useAppSelector(selectAuthorizationStatus);
@@ -47,16 +49,23 @@ export default function SignInPage() {
     });
   }, [setErrorVisibillity]);
 
-  if (authStatus === AuthStatus.Authorithed) {
-    return <Navigate to='/' />;
-  }
+  useEffect(() => {
+    if (authStatus === AuthStatus.Authorithed) {
+      navigate('/');
+    }
+  }, [authStatus, navigate]);
+
 
   const messages = authError?.details.map((detail) => detail.messages.join('\n')).flat();
 
   return (
     <div>
+      <ServerUnavaibleMessage />
+
       <div className="user-page">
-        <Header />
+        <Header type={HeaderType.UserPage} hideUserBlock>
+          <h1 className="page-title user-page__title">Sign in</h1>
+        </Header>
 
         <div className="sign-in user-page__content">
           <form action="#" className="sign-in__form" onSubmit={handleSubmit} onChange={handleChange}>

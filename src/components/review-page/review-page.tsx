@@ -5,7 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchFilmById } from '../../api/api-actions';
 import { useEffect } from 'react';
 import { selectCurrentFilm } from '../../stores/current-film/current-film-selectors';
-import { Header } from '../layout/header';
+import { Header, HeaderType } from '../layout/header';
+import { ServerUnavaibleMessage } from '../system/server-unavaible-message';
 
 export default function ReviewPage() {
   const params = useParams();
@@ -29,6 +30,8 @@ export default function ReviewPage() {
 
   return (
     <div>
+      <ServerUnavaibleMessage/>
+
       <section className="film-card film-card--full">
         <div className="film-card__header">
           <div className="film-card__bg">
@@ -37,7 +40,7 @@ export default function ReviewPage() {
 
           <h1 className="visually-hidden">WTW</h1>
 
-          <Header>
+          <Header type={HeaderType.FilmCard} hideUserBlock={false}>
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">

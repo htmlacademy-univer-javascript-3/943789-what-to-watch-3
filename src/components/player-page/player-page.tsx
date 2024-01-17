@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchFilmById } from '../../api/api-actions';
 import { selectCurrentFilm } from '../../stores/current-film/current-film-selectors';
 import VideoPlayer, { VideoState } from '../video-player/video-player';
+import { ServerUnavaibleMessage } from '../system/server-unavaible-message';
 
 const MINUTES_IN_HOUR = 60;
 const SECOND_IN_MINUTE = 60;
@@ -73,6 +74,8 @@ export default function PlayerPage() {
 
   return (
     <div ref={pageRef}>
+      <ServerUnavaibleMessage/>
+
       <div className="player">
         <VideoPlayer src={filmInfo.videoLink} poster={filmInfo.backgroundImage} state={videoState} className='player__video' onTimeUpdate={handleVideoTimeUpdate} onDurationUpdate={handleVideoDurationUpdate} muted={false} />
 
@@ -101,7 +104,7 @@ export default function PlayerPage() {
               </svg>
               <span>{videoState !== VideoState.Play ? 'Play' : 'Pause'}</span>
             </button>
-            <div className="player__name">Transpotting</div>
+            <div className="player__name">{filmInfo.name}</div>
 
             <button type="button" className="player__full-screen" onClick={() => {
               setFullscreen(!fullscreen);
